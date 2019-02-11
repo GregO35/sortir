@@ -33,3 +33,6 @@ header .site-title img {
 main {
     flex-grow: 1;
 }
+label{
+    color: #1b1e21;
+}

@@ -4,10 +4,10 @@
 
 {% block content %}
 
-<<<<<<< HEAD
-    {% if error %}
+
+    {#{% if error %}
         <div class="alert alert-danger">Mauvais identifiants !</div>
-    {% endif %}
+    {% endif %}#}
 <section id="cover">
     <div id="cover-caption">
         <div id="container" class="container">
@@ -19,26 +19,32 @@
                         <form method="post" action="" class="justify-content-center">
 
                             <div class="form-group">
-                                <label for="inputUsername" class="sr-only">Identifiant : </label>
-                                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="nini44" required autofocus>
+                                <div class="float-left">
+                                <label for="inputUsername" class="">Identifiant : </label>
+                                </div>
+                                <input type="text" value="" name="username" id="inputUsername" class="form-control" placeholder="nini44" required autofocus>
                             </div>
 
                             <div class="form-group">
-                                <label for="inputPassword" class="sr-only">Password</label>
+                                <div class="float-left">
+                                <label for="inputPassword" class="">Password : </label>
+                                </div>
                                 <input type="password" name="password" id="inputPassword"
                                        class="form-control" required>
 
                                 <input type="hidden" name="_csrf_token"
 
                                        value="{{ csrf_token('authenticate') }}">
-
-                                    <button class="btn btn-lg btn-primary" type="submit">
-                                    Connexion
-                                </button>
                             </div>
-
+                            <div class="d-inline">
+                                <div class="float-left">
+                                    <button class="btn btn-lg btn-primary" type="submit">Connexion</button>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="float rounded-right"><input type="checkbox"> Se souvenir de moi</label>
+                                </div>
+                            </div>
                         </form>
-
                     </div>
               </div>
            </div>
@@ -46,26 +52,4 @@
     </div>
 </section>
 {% endblock %}
-=======
-{% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
-{% endblock %}
->>>>>>> 66e91efa462e8dcae28b024510452bd731f29de7

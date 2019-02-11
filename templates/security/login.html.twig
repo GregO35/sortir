@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<<<<<<< HEAD
     {% if error %}
         <div class="alert alert-danger">Mauvais identifiants !</div>
     {% endif %}
@@ -45,3 +46,26 @@
     </div>
 </section>
 {% endblock %}
+=======
+{% block body %}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+
+        <button class="btn btn-lg btn-primary" type="submit">
+            Sign in
+        </button>
+    </form>
+{% endblock %}
+>>>>>>> 66e91efa462e8dcae28b024510452bd731f29de7

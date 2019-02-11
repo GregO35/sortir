@@ -11,9 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/utilisateur/gestion-profil",
-     *  name="gestion_profil")
-     *  methods={"GET","POST"}
+     * @Route(
+     *     "/utilisateur/gestion-profil",
+     *      name="gestion_profil",
+     *      methods={"GET","POST"}
+     *     )
      */
     public function manage(Request $request)
     {

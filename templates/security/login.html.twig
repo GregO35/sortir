@@ -1,25 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se connecter !{% endblock %}
 
-{% block body %}
-<form method="post">
+{% block content %}
+
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="alert alert-danger">Mauvais identifiants !</div>
     {% endif %}
+<section id="cover">
+    <div id="cover-caption">
+        <div id="container" class="container">
+            <div class="row">
+                <div class="col-sm-6 offset-sm-3 text-center">
+                    <h2 class="h3 mb-3 font-weight-normal">Se connecter</h2>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername" class="sr-only">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <div class="info-form">
+                        <form method="post" action="" class="justify-content-center">
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+                            <div class="form-group">
+                                <label for="inputUsername" class="sr-only">Identifiant : </label>
+                                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="nini44" required autofocus>
+                            </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+                            <div class="form-group">
+                                <label for="inputPassword" class="sr-only">Password</label>
+                                <input type="password" name="password" id="inputPassword"
+                                       class="form-control" required>
+
+                                <input type="hidden" name="_csrf_token"
+
+                                       value="{{ csrf_token('authenticate') }}">
+
+                                    <button class="btn btn-lg btn-primary" type="submit">
+                                    Connexion
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+              </div>
+           </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

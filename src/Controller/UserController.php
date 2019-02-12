@@ -7,6 +7,8 @@ use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 class UserController extends AbstractController
 {
@@ -19,29 +21,33 @@ class UserController extends AbstractController
      */
     public function manage(Request $request)
     {
-        $user = new User();
-        $userForm = $this->createForm(UserType::class, $user);
 
-        $userForm->handleRequest($request);
+        //$user = $this->get('security.token_storage')->getToken()->getUser();
 
-        if ($userForm->isSubmitted() && $userForm->isValid()) {
-            //Retourne l'entity manager:
-            $em = $this->getDoctrine()->getManager();
+            $user = new User();
 
-            //On demande à Doctrine de sauvegarder notre instance :
-            $em->persist($user);
+            //Création du formulaire
+            $userForm = $this->createForm(UserType::class, $user);
 
-            //pour exécuter :
-            $em->flush();
+            //enregistre le formulaire dans la BDD
+            $userForm->handleRequest($request);
 
-            //Créer un message flash à afficher sur la prochaine page
-            $this->addFlash('success', "Vous avez modifié votre profil avec succès");
+            if ($userForm->isSubmitted() && $userForm->isValid()) {
+                //Retourne l'entity manager:
+                $em = $this->getDoctrine()->getManager();
 
-        }
+                //On demande à Doctrine de sauvegarder notre instance :
+                $em->persist($user);
 
+                //pour exécuter :
+                $em->flush();
 
+                //Créer un message flash à afficher sur la prochaine page
+                $this->addFlash('success', "Vous avez modifié votre profil avec succès");
+
+            }
+        //Affiche le formulaire et les infos venant de la BDD
         return $this->render('user/gestion_profil.html.twig', [
-            'userForm' => $userForm->createView()
-        ]);
+            "userForm" => $userForm->createView()]);
     }
 }

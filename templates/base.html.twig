@@ -33,9 +33,9 @@
 
                  <nav id="main-nav" class="col-lg-5 nav justify-content-md-end flex-column flex-lg-row text-center pr-0">
                     {% if app.user %}
-                    <a class="nav-link" href="#">Accueil</a>
-                    <a class="nav-link" href="#">Mon profil</a>
-                    <a class="nav-link" href="#">Se deconnecter</a>
+                    <a class="nav-link" href="{{ path('accueil') }}">Accueil</a>
+                    <a class="nav-link" href="{{ path('gestion_profil') }}">Mon profil</a>
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                     {% endif %}
                 </nav>
 

@@ -5387,8 +5387,6 @@
     ],
     "packages-dev": [
         {
-<<<<<<< HEAD
-=======
             "name": "doctrine/data-fixtures",
             "version": "v1.3.1",
             "source": {
@@ -5512,7 +5510,6 @@
             "time": "2018-12-21T10:10:51+00:00"
         },
         {
->>>>>>> 54681c2bb02011688039db7983ef9b02b12659f7
             "name": "easycorp/easy-log-handler",
             "version": "v1.0.7",
             "source": {

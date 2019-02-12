@@ -30,7 +30,11 @@ security:
             logout:
                 path: app_logout
 
-
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800
+                path:     /sortir/accueil
+                always_remember_me: true
 
             # activate different ways to authenticate
 

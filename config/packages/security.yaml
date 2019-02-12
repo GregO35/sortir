@@ -11,6 +11,9 @@ security:
                 class: App\Entity\User
                 property: username
 
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     # providers:
@@ -46,5 +49,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        #- { path: ^/admin, roles: ROLE_ADMIN }
-        #- { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/sortir/admin, roles: ROLE_ADMIN }
+        - { path: ^/sortir, roles: ROLE_USER }

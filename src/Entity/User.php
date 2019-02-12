@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -65,6 +67,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $actif;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Excursion", mappedBy="organizer")
+     */
+    private $excursions;
+
+    public function __construct()
+    {
+        $this->excursions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -207,6 +219,37 @@ class User implements UserInterface
     public function setActif(bool $actif): self
     {
         $this->actif = $actif;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Excursion[]
+     */
+    public function getExcursions(): Collection
+    {
+        return $this->excursions;
+    }
+
+    public function addExcursion(Excursion $excursion): self
+    {
+        if (!$this->excursions->contains($excursion)) {
+            $this->excursions[] = $excursion;
+            $excursion->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExcursion(Excursion $excursion): self
+    {
+        if ($this->excursions->contains($excursion)) {
+            $this->excursions->removeElement($excursion);
+            // set the owning side to null (unless already changed)
+            if ($excursion->getOrganizer() === $this) {
+                $excursion->setOrganizer(null);
+            }
+        }
 
         return $this;
     }

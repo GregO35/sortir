@@ -21,7 +21,7 @@ class UserType extends AbstractType
             ->add('phone', TextType::class, ['label'=>"Téléphone"])
             ->add('mail', TextType::class, ['label'=>"Email"])
             ->add('password', TextType::class, ['label'=>"Mot de passe"])
-            ->add('password', TextType::class, ['label'=>"Confirmation"])
+
 
 /*          ->add('administrator')
             ->add('roles')

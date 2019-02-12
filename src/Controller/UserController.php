@@ -14,7 +14,7 @@ class UserController extends AbstractController
 {
     /**
      * @Route(
-     *     "/utilisateur/gestion-profil",
+     *     "sortir/utilisateur/gestion-profil",
      *      name="gestion_profil",
      *      methods={"GET","POST"}
      *     )
@@ -22,12 +22,11 @@ class UserController extends AbstractController
     public function manage(Request $request)
     {
 
-        //$user = $this->get('security.token_storage')->getToken()->getUser();
-
             $user = new User();
 
             //Création du formulaire
             $userForm = $this->createForm(UserType::class, $user);
+
 
             //enregistre le formulaire dans la BDD
             $userForm->handleRequest($request);
@@ -48,6 +47,7 @@ class UserController extends AbstractController
             }
         //Affiche le formulaire et les infos venant de la BDD
         return $this->render('user/gestion_profil.html.twig', [
-            "userForm" => $userForm->createView()]);
+            "userForm" => $userForm->createView()
+        ]);
     }
 }

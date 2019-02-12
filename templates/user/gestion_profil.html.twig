@@ -13,6 +13,48 @@
         </div>
         <div class="col">
             {#Affiche le formulaire de la classe User#}
+            <div>
+            {{ form_start(userForm) }}
+            {{ form_row(userForm.username) }}
+            {{ form_row(userForm.firstName) }}
+            {{ form_row(userForm.name) }}
+            {{ form_row(userForm.phone) }}
+            {{ form_row(userForm.mail) }}
+            {{ form_row(userForm.password) }}
+
+
+                <div class="row">
+                    <form method="GET">
+                        <div class="col"><label>Ville de rattachement</label></div>
+                        <div class="col"><select name="ville">
+                                {#
+                                {% for site in sites %}
+                                    <option value="{{ app.sites.id }}">{{ app.sites.nom_site }}</option>
+                                {% endfor %}
+                                #}
+                            </select></div>
+                    </form>
+                </div>
+
+                <div class="row">
+                    <div class="col"><label for="inputMaPhoto" class="float-left">Ma photo</label></div>
+                    <div class="col"><button class="btn btn-lg btn-primary float-left" type="submit">Télécharger vers le serveur</div>
+                </div>
+
+                <br>
+
+                <div class="d-inline">
+                    <button class="btn btn-lg btn-primary float-left" type="submit">Enregistrer</button>
+                    <button class="btn btn-lg btn-primary float-left" type="submit">Annuler</button>
+                </div>
+            {{ form_end(userForm) }}
+            </div>
+
+
+        </div>
+        <div class="col">
+
+            {#Affiche le formulaire de la classe User#}
             <form method="post" action="{{ asset("/utilisateur/gestion_profil") }}" class="justify-content-center">
 
                 <div class="row">
@@ -43,10 +85,10 @@
                 <div class="row">
                     <div class="col"><label for="inputPassword" class="float-left">Mot de passe : </label></div>
                     <div class="col"><input type="password" name="password" id="inputPassword"
-                           class="form-control" required>
+                                            class="form-control" required>
 
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}"></div>
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"></div>
                 </div>
 
                 <div class="row">
@@ -61,11 +103,11 @@
                     <form method="GET">
                         <div class="col"><label>Ville de rattachement</label></div>
                         <div class="col"><select name="ville">
-                            {#
-                            {% for site in sites %}
-                                <option value="{{ app.sites.id }}">{{ app.sites.nom_site }}</option>
-                            {% endfor %}
-                            #}
+                                {#
+                                {% for site in sites %}
+                                    <option value="{{ app.sites.id }}">{{ app.sites.nom_site }}</option>
+                                {% endfor %}
+                                #}
                             </select></div>
                     </form>
                 </div>
@@ -84,10 +126,7 @@
 
             </form>
 
-
-
         </div>
-        <div class="col"></div>
     </div>
 
 {% endblock %}

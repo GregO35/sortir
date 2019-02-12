@@ -1,0 +1,39 @@
+body {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body .container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+
+header {
+}
+
+header .site-title {
+    font-size: 32px;
+}
+
+header .site-title a {
+    color: #212529;
+    display: flex;
+    align-items: center;
+}
+
+header .site-title a:hover {
+    text-decoration: none;
+}
+
+header .site-title img {
+    height: 27px;
+    margin-right: 3px;
+}
+
+main {
+    flex-grow: 1;
+}
+label{
+    color: #1b1e21;
+}

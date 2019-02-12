@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExcursionController extends AbstractController
 {
     /**
-     * @Route("/excursion", name="excursion")
+     * @Route("/accueil", name="excursion_list")
      */
-    public function index()
+    public function listExcursion()
     {
-        return $this->render('excursion/index.html.twig', [
+        return $this->render('user/accueil.html.twig', [
             'controller_name' => 'ExcursionController',
         ]);
     }

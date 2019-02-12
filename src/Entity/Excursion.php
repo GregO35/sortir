@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +63,23 @@ class Excursion
      * @ORM\JoinColumn(nullable=false)
      */
     private $organizer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\State", inversedBy="excursions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $State;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="excursions")
+     */
+    private $RegisterExcursion;
+
+    public function __construct()
+    {
+        $this->RegisterExcursion = new ArrayCollection();
+    }
+
 
 
     public function getId(): ?int
@@ -175,5 +194,45 @@ class Excursion
 
         return $this;
     }
+
+    public function getState(): ?State
+    {
+        return $this->State;
+    }
+
+    public function setState(?State $State): self
+    {
+        $this->State = $State;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getRegisterExcursion(): Collection
+    {
+        return $this->RegisterExcursion;
+    }
+
+    public function addRegisterExcursion(User $registerExcursion): self
+    {
+        if (!$this->RegisterExcursion->contains($registerExcursion)) {
+            $this->RegisterExcursion[] = $registerExcursion;
+        }
+
+        return $this;
+    }
+
+    public function removeRegisterExcursion(User $registerExcursion): self
+    {
+        if ($this->RegisterExcursion->contains($registerExcursion)) {
+            $this->RegisterExcursion->removeElement($registerExcursion);
+        }
+
+        return $this;
+    }
+
+
 
 }

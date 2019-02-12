@@ -69,7 +69,7 @@ class User implements UserInterface
     private $actif;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Excursion", mappedBy="organizer")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Excursion", mappedBy="RegisterExcursion")
      */
     private $excursions;
 
@@ -77,6 +77,8 @@ class User implements UserInterface
     {
         $this->excursions = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -235,7 +237,7 @@ class User implements UserInterface
     {
         if (!$this->excursions->contains($excursion)) {
             $this->excursions[] = $excursion;
-            $excursion->setOrganizer($this);
+            $excursion->addRegisterExcursion($this);
         }
 
         return $this;
@@ -245,12 +247,11 @@ class User implements UserInterface
     {
         if ($this->excursions->contains($excursion)) {
             $this->excursions->removeElement($excursion);
-            // set the owning side to null (unless already changed)
-            if ($excursion->getOrganizer() === $this) {
-                $excursion->setOrganizer(null);
-            }
+            $excursion->removeRegisterExcursion($this);
         }
 
         return $this;
     }
+
+
 }

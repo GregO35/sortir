@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Excursion;
+use App\Entity\State;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -52,12 +54,29 @@ class Fixtures extends Command
         $conn = $this->em->getConnection();
 
         $conn->query('SET FOREIGN_KEY_CHECKS = 0');
-
+            //effacer le contenu des tables existantes
         $conn->query('TRUNCATE user');
+        $conn->query('TRUNCATE excursion');
+        $conn->query('TRUNCATE state');
+        $conn->query('TRUNCATE excursion_user');
 
         $conn->query('SET FOREIGN_KEY_CHECKS = 1');
 
         $io->text("Tables are now empty...");
+
+        // stocker et utiliser la table state dans les fixtures
+        $states = ["En cours", "Fermé", "Ouvert", "En création"];
+
+        $allStates = [];
+
+        foreach ($states as $libelle){
+            $state=new State();
+            $state->setLibelle($libelle);
+            $this->em->persist($state);
+
+            $allStates[]=$state;
+        }
+        $this->em->flush();
 
         $io->progressStart(20);
 
@@ -99,6 +118,20 @@ class Fixtures extends Command
 
             $users[] = $user;
         }
+
+        //fixtures pour la table sortie pour affichage dans le tableau de la page accueil
+            for($j=0;$j<10;$j++){
+                $excursion=new Excursion();
+
+                $excursion->setName($faker->city);
+                $excursion->setStartDate($faker->dateTime);
+                $excursion->setEndDate($faker->dateTime);
+                $excursion->setRegistrationNumberMax($faker->numberBetween(5,20));
+                $excursion->setState($faker->randomElement($allStates));
+                $excursion->setOrganizer($faker->randomElement($users));
+
+                $this->em->persist($excursion);
+            }
 
         $this->em->flush();
         $io->progressFinish();

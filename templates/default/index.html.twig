@@ -4,7 +4,42 @@
 
 {% block content %}
     <div class="container-fluid table table-responsive">
+        <p>Filtrer les sorties</p>
+            <div class="row">
+                <div class="form-group col-lg-4">
+                    <label for="sel1">Site :</label>
+                    <select class="form-control" id="sel1">
+                        <option>Saint-Herblain</option>
+                        <option>Chartres de Bretagne</option>
+                        <option>Niort</option>
+                        <option>La Roche sur Yon</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Sorties dont je suis l'organisateur/trice</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Sorties auxquelles je suis inscrit/e</label>
+                    </div>
+                    <div class="checkbox ">
+                        <label><input type="checkbox" value="">Sorties auxquelles je ne suis pas inscrit/e</label>
+                    </div>
+                    <div class="checkbox ">
+                        <label><input type="checkbox" value="">Sorties passées</label>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-lg btn-primary float-left" type="submit">Rechercher</button>
+                </div>
+            </div>
+
+
+<br>
+
+
         <table class="table table-striped">
+
 
 
             <tr class="">

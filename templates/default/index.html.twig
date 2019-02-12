@@ -53,6 +53,25 @@
                 <th class="">Action</th>
             </tr>
 
+            {% for excursion in excursions %}
+            <tr class="">
+                <td class="">{{ excursion.name }}</td>
+                <td class="">{{ excursion.startDate | date ('d-m-Y') }}</td>
+                <td class="">{{ excursion.endDate | date ('d-m-Y')}}</td>
+                <td class="">{{ excursion.registrationNumberMax }}</td>
+                <td> {% for state in excursion.state %}
+                    <span class="">{{ state.libelle }}</span>
+                    {% endfor %}
+                </td>
+
+                <td class="">{{ excursion.registerExcursion.count }}</td>
+                <td class="">{{ excursion.organizer.name }}</td>
+                <td class=""><a href="#">Afficher</a></td>
+            </tr>
+
+            {% endfor %}
+
+
         </table>
     </div>
 

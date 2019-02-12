@@ -65,7 +65,7 @@ class Fixtures extends Command
         $io->text("Tables are now empty...");
 
         // stocker et utiliser la table state dans les fixtures
-        $states = ["En cours", "Fermé", "Ouvert", "En création"];
+        $states = ['En cours', 'Fermé', 'Ouvert', 'En création'];
 
         $allStates = [];
 

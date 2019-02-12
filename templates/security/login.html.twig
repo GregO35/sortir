@@ -20,34 +20,29 @@
 
                         <form method="post" action="{{ asset("login") }}" class="justify-content-center">
 
-
                             <div class="form-group">
 
-                                <div class="float-left">
-                                <label for="inputUsername" class="">Identifiant : </label>
-                                </div>
+                                <label for="inputUsername" class="float-left">Identifiant : </label>
                                 <input type="text" value="" name="username" id="inputUsername" class="form-control" placeholder="nini44" required autofocus>
+
                             </div>
 
                             <div class="form-group">
-                                <div class="float-left">
-                                <label for="inputPassword" class="">Password : </label>
-                                </div>
+
+                                <label for="inputPassword" class="float-left">Password : </label>
                                 <input type="password" name="password" id="inputPassword"
                                        class="form-control" required>
 
                                 <input type="hidden" name="_csrf_token"
-
                                        value="{{ csrf_token('authenticate') }}">
                             </div>
                             <div class="d-inline">
-                                <div class="float-left">
-                                    <button class="btn btn-lg btn-primary" type="submit">Connexion</button>
-                                </div>
-                                <div class="checkbox">
-                                    <input type="checkbox" id="remember_me" name="_remember_me" checked>
-                                    <label class="float rounded-right">Se souvenir de moi</label>
-                                </div>
+
+                                <button class="btn btn-lg btn-primary float-left" type="submit">Connexion</button>
+
+                                <label for="remember_me" class="float rounded-right">Se souvenir de moi</label>
+                                <input type="checkbox" id="remember_me" name="_remember_me" checked>
+
                             </div>
                         </form>
                     </div>

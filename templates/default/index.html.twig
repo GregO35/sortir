@@ -59,9 +59,9 @@
                 <td class="">{{ excursion.startDate | date ('d-m-Y') }}</td>
                 <td class="">{{ excursion.endDate | date ('d-m-Y')}}</td>
                 <td class="">{{ excursion.registrationNumberMax }}</td>
-                <td> {% for state in excursion.state %}
-                    <span class="">{{ state.libelle }}</span>
-                    {% endfor %}
+                <td>
+                    {{ excursion.state.libelle }}
+
                 </td>
 
                 <td class="">{{ excursion.registerExcursion.count }}</td>

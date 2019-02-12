@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajout excursion{% endblock %}
+
+{% block content %}
+    <h1>Ajouter votre sortie</h1>
+
+    {{ form_start(excursionForm, {
+        'attr': {
+            'novalidate': 'novalidate'
+        }})
+    }}
+
+    {{ form_widget(excursionForm) }}
+
+    <button class="btn btn-success">Envoyer !</button>
+    {{ form_end(excursionForm) }}
+{% endblock %}

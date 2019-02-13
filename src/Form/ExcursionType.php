@@ -16,7 +16,7 @@ class ExcursionType extends AbstractType
     {
         $builder
             ->add('name', TextType::class,[
-                'label' => 'nom*'
+                'label' => 'Nom*'
             ])
             ->add('startDate', DateType::class,[
                 'label' => 'Date de début*'

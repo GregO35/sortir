@@ -65,7 +65,7 @@ class Fixtures extends Command
         $io->text("Tables are now empty...");
 
         // stocker et utiliser la table state dans les fixtures
-        $states = ['En cours', 'Fermé', 'Ouvert', 'En création'];
+        $states = ['En cours', 'Fermé', 'Ouvert', 'Complet'];
 
         $allStates = [];
 
@@ -81,8 +81,6 @@ class Fixtures extends Command
         $io->progressStart(20);
 
         $roles = ["admin","user"];
-        $categoriesName = ["Outil","Véhicule","Meuble","Jeu"];
-        $categories = [];
         $users = [];
 
         $user = new User();
@@ -124,8 +122,12 @@ class Fixtures extends Command
                 $excursion=new Excursion();
 
                 $excursion->setName($faker->city);
-                $excursion->setStartDate($faker->dateTime);
-                $excursion->setEndDate($faker->dateTime);
+                $excursion->setStartDate($faker->dateTimeBetween('-1year','+1year'));
+
+                $interval = new \DateInterval("P0Y5D");
+                $excursion->setEndDate($faker->dateTimeBetween($excursion->getStartDate(),
+                                                        date_add($excursion->getStartDate(), $interval)));
+
                 $excursion->setRegistrationNumberMax($faker->numberBetween(5,20));
                 $excursion->setState($faker->randomElement($allStates));
                 $excursion->setOrganizer($faker->randomElement($users));

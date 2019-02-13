@@ -22,10 +22,12 @@ class UserController extends AbstractController
     public function manage(Request $request)
     {
 
-            $user = new User();
+            $user = $this->getUser();
+            //dd($user);
 
             //Création du formulaire
             $userForm = $this->createForm(UserType::class, $user);
+
 
 
             //enregistre le formulaire dans la BDD

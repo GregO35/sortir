@@ -14,56 +14,45 @@
         <div class="col">
             {#Affiche le formulaire de la classe User#}
             <div>
-            {{ form_start(userForm) }}
-            {{ form_row(userForm.username)}}
-            {{ form_row(userForm.firstName) }}
-            {{ form_row(userForm.name) }}
-            {{ form_row(userForm.phone) }}
-            {{ form_row(userForm.mail) }}
-                <div class="row">
-                    <div class="col"><label for="inputPassword" class="float-left">Mot de passe : </label></div>
-                    <div class="col"><input type="password" name="password" id="inputPassword"
-                                            required>
+            {{ form_start(userForm, {'attr':{'novalidate':'novalidate'}}) }}
+            {{ form_widget(userForm)}}
 
-                        <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}"></div>
-                </div>
-
+                {#Affiche le champ Confirmation de mot de passe; la saisie de l'utilisateur sera cachée
                 <div class="row">
                     <div class="col"><label for="inputConfirmation" class="float-left">Confirmation : </label></div>
                     <div class="col"><input type="password" name="passwordConfirmation" id="inputConfirmation"
-                                             required>
+                                            placeholder="Votre mot de passe" required>
 
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('authenticate') }}"></div>
-                </div>
+                </div>#}
 
                 <div class="row">
-                    <form method="GET">
-                        <div class="col"><label>Ville de rattachement</label></div>
-                        <div class="col"><select name="ville">
-                                {#
-                                {% for site in sites %}
-                                    <option value="{{ app.sites.id }}">{{ app.sites.nom_site }}</option>
-                                {% endfor %}
-                                #}
-                            </select></div>
-                    </form>
-                </div>
-
-                <div class="row">
-                    <div class="col"><label for="inputMaPhoto" class="float-left">Ma photo</label></div>
+                    <div class="col"><label for="inputMaPhoto" class="float-left">Ma photo :</label></div>
                     <div class="col"><button class="btn btn-lg btn-primary float-left" type="submit">Télécharger vers le serveur</div>
                 </div>
 
                 <br>
 
-                <div class="d-inline">
+                <div>
                     <button class="btn btn-lg btn-primary float-left" type="submit">Enregistrer</button>
-                    <button class="btn btn-lg btn-primary float-left" type="submit">Annuler</button>
+                    <a href="{{ path('index') }}">Annuler</a>
                 </div>
             {{ form_end(userForm) }}
             </div>
+
+           {# <div class="row">
+                <div class="col"><label for="inputPassword" class="float-left">Mot de passe : </label></div>
+                <div class="col"><input type="password" name="password" id="inputPassword"
+                                        required>
+
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"></div>
+            </div>
+
+            #}
+
+
 
 
         </div>

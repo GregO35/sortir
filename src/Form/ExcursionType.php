@@ -16,22 +16,22 @@ class ExcursionType extends AbstractType
     {
         $builder
             ->add('name', TextType::class,[
-                'label' => 'nom'
+                'label' => 'nom*'
             ])
             ->add('startDate', DateType::class,[
-                'label' => 'Date de début'
-            ])
-            ->add('duration', NumberType::class,[
-                'label' => 'Durée de la sortie'
+                'label' => 'Date de début*'
             ])
             ->add('endDate', DateType::class,[
-                'label' => 'Date de fin'
+                'label' => 'Date de fin*'
             ])
             ->add('registrationNumberMax', NumberType::class,[
-                'label' => 'Nombre maximum de participant'
+                'label' => 'Nombre maximum de participant*'
             ])
             ->add('description', TextType::class,[
                 'label' => 'Description'
+            ])
+            ->add('duration', NumberType::class,[
+                'label' => 'Durée de la sortie'
             ])
             ->add('urlPicture')
         ;

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,6 +25,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Length(
+     *     min=2,
+     *     minMessage="Veuillez saisir au moins deux caractéres",
+     *     max="30",
+     *     maxMessage="Votre pseudo est limité à 30 caractéres"
+     *     )
+     * @Assert\NotBlank(message="Veuillez entrez un pseudo")
      */
     private $username;
 
@@ -35,16 +43,39 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Regex(
+     *      pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/",
+     *      message="Utilisez au moins 1 majuscule, 1 minuscule et 1 nombre"
+     *      )
+     * @Assert\NotBlank(message="Veuillez saisir un mot de passe")
+     * @Assert\Length(
+     *     max=30,
+     *     maxMessage="Votre mot de passe est limité à 30 caractéres"
+     * )
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Length(
+     *     min=2,
+     *     minMessage="Veuillez saisir au moins deux caractéres",
+     *     max="30",
+     *     maxMessage="Votre nom est limité à 30 caractéres"
+     *     )
+     * @Assert\NotBlank(message="Veuillez entrez un nom")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Length(
+     *     min=2,
+     *     minMessage="Veuillez saisir au moins deux caractéres",
+     *     max="30",
+     *     maxMessage="Votre prénom est limité à 30 caractéres"
+     *     )
+     * @Assert\NotBlank(message="Veuillez entrez un prénomm")
      */
     private $firstName;
 
@@ -54,7 +85,12 @@ class User implements UserInterface
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     *     )
+     * @Assert\NotBlank(message="Veuillez saisir un mot de passe")
      */
     private $mail;
 
@@ -72,6 +108,7 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="App\Entity\Excursion", mappedBy="RegisterExcursion")
      */
     private $excursions;
+
 
     public function __construct()
     {
@@ -252,6 +289,4 @@ class User implements UserInterface
 
         return $this;
     }
-
-
 }

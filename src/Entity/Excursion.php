@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,6 +21,13 @@ class Excursion
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Length(
+     *     min=5,
+     *     max=30,
+     *     minMessage="Le nom de votre sortie doit avoir au moins 5 caractéres",
+     *     maxMessage="Le nom de votre sortie doit avoir au plus 30 caractéres"
+     * )
+     * @Assert\NotBlank(message="Merci de renseigner un nom pour votre sortie")
      */
     private $name;
 
@@ -40,6 +48,9 @@ class Excursion
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\LessThanOrEqual(12,message="Il ne peut y avoir que 12 participants à une sortie maximum!")
+     * @Assert\GreaterThanOrEqual(2,message="Il doit y avoir au moins 2 participants à une sortie!")
+     * @Assert\NotBlank(message="Merci de renseigner un nombre de participants")
      */
     private $registrationNumberMax;
 

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Excursion;
 
+use App\Entity\State;
 use App\Form\ExcursionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ class ExcursionController extends AbstractController
 {
 
     /**
-     * @Route("/sortir/accueil", name="accueil", methods={"GET"})
+     * @Route("/sortir/accueil", name="index", methods={"GET"})
      */
     //requête pour afficher toutes les sorties (pour tester!) et les afficher (pour tester aussi!)
     public function listExcursion()
@@ -40,8 +41,11 @@ class ExcursionController extends AbstractController
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
+            $stateRepository = $this->getDoctrine()->getRepository(State::class);
+            $stateInitial = $stateRepository->find(3);
+
             $excursion->setOrganizer($this->getUser());
-            $excursion->setState();
+            $excursion->setState($stateInitial);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($excursion);
@@ -51,7 +55,7 @@ class ExcursionController extends AbstractController
         }
 
         return $this->render("excursion/create.html.twig",[
-            'ecursionForm' => $excursionForm->createView()
+            'excursionForm' => $excursionForm->createView()
         ]);
     }
 }

@@ -17,19 +17,19 @@ class RegisterType extends AbstractType
     {
         $builder
             ->add('username', TextType::class,[
-                'label' => 'pseudo'
+                'label' => 'Pseudo'
             ])
             ->add('firstName', TextType::class,[
-                'label' => 'prénom'
+                'label' => 'Prénom'
             ])
             ->add('name', TextType::class,[
-                'label' => 'nom'
+                'label' => 'Nom'
             ])
             ->add('phone', NumberType::class,[
                 'label' => 'Téléphone'
             ])
             ->add('mail', EmailType::class,[
-                'label' => 'mail'
+                'label' => 'Mail'
             ])
             ->add('password', PasswordType::class,[
                 'label' => 'Mot de passe'

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Excursion;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,13 +17,13 @@ class ExcursionType extends AbstractType
     {
         $builder
             ->add('name', TextType::class,[
-                'label' => 'nom*'
+                'label' => 'Nom*'
             ])
-            ->add('startDate', DateType::class,[
+            ->add('startDate', DateTimeType::class,[
                 'label' => 'Date de début*'
             ])
-            ->add('endDate', DateType::class,[
-                'label' => 'Date de fin*'
+            ->add('endDate', DateTimeType::class,[
+                'label' => 'Date de clôture*'
             ])
             ->add('registrationNumberMax', NumberType::class,[
                 'label' => 'Nombre maximum de participant*'

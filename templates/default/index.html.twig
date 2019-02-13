@@ -43,31 +43,46 @@
 
 
 
-            <tr class="">
+            <tr class="text-center">
                 <th class="">Nom</th>
                 <th class="">Date</th>
                 <th class="">Clôture</th>
                 <th class="">inscrits / places</th>
                 <th class="">Etat</th>
-                <th class="">Inscrits</th>
                 <th class="">Organisateur</th>
                 <th class="">Action</th>
             </tr>
 
             {% for excursion in excursions %}
-            <tr class="">
+            <tr class="text-center">
                 <td class="">{{ excursion.name }}</td>
                 <td class="">{{ excursion.startDate | date ('d-m-Y') }}</td>
                 <td class="">{{ excursion.endDate | date ('d-m-Y')}}</td>
-                <td class="">{{ excursion.registrationNumberMax }}</td>
-                <td>
-                    {{ excursion.state.libelle }}
-
-                </td>
-
-                <td class="">{{ excursion.registerExcursion.count }}</td>
+                <td class="">{{ excursion.registerExcursion.count }} / {{ excursion.registrationNumberMax }}</td>
+                <td class="">{{ excursion.state.libelle }}</td>
                 <td class="">{{ excursion.organizer.name }}</td>
-                <td class=""><a href="#">Afficher</a></td>
+                <td class="">
+
+                    {% set registerUser = false %}
+                    {% for user in excursion.RegisterExcursion %}
+                        {% if user.id == app.user.id %}
+                            {% set registerUser = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if excursion.endDate|date("d-m-Y H:i:s") < "now"|date("d-m-Y H:i:s") %}
+                        {% if app.user.username != excursion.organizer.username %}
+                            {% if not registerUser %}
+                                <a href="{{ path('excursion_register',{'id': excursion.id}) }}">S'inscrire -</a>
+                            {% elseif registerUser %}
+                                <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('excursion_delete',{'id': excursion.id}) }}">Annuler</a>
+                        {% endif %}
+                    {% endif %}
+                    <a href="#">Afficher</a>
+                </td>
             </tr>
 
             {% endfor %}

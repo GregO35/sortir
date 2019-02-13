@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Excursion;
-
 use App\Entity\State;
+use App\Entity\Excursion;
+use App\Entity\User;
 use App\Form\ExcursionType;
+use App\Repository\ExcursionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,5 +58,92 @@ class ExcursionController extends AbstractController
         return $this->render("excursion/create.html.twig",[
             'excursionForm' => $excursionForm->createView()
         ]);
+    }
+
+    /**
+     * @Route("/sortir/sortie/inscription/{id}",
+     *     name="excursion_register",
+     *     requirements={"id":"\d+"},
+     *     )
+     */
+    public function registerExcursion($id){
+
+        $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $excursion = $excursionRepository->find($id);
+
+        $endDate = $excursion->getEndDate();
+        $actualDate = date("d-m-Y H:i:s");
+        $actualDate = date_create($actualDate);
+
+        if(date_diff($endDate,$actualDate)->invert &&
+            $excursion->getRegistrationNumberMax() > $excursion->getRegisterExcursion()->count())
+        {
+            $user = $this->getUser();
+            $user->addExcursion($excursion);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/sortir/sortie/désinscription/{id}",
+     *      name="excursion_unregister",
+     *      requirements={"id":"\d+"}
+     *     )
+     */
+    public function unregisterExcursion($id){
+        $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $excursion = $excursionRepository->find($id);
+        $user = $this->getUser();
+
+        $endDate = $excursion->getEndDate();
+        $actualDate = date("d-m-Y H:i:s");
+        $actualDate = date_create($actualDate);
+
+        if(date_diff($endDate,$actualDate)->invert)
+        {
+            $user->removeExcursion($excursion);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/sortir/sortie/annulation/{id}",
+     *      name="excursion_delete",
+     *      requirements={"id":"\d+"}
+     *     )
+     */
+    public function deleteExcursion($id){
+        $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $excursion = $excursionRepository->find($id);
+
+        $endDate = $excursion->getEndDate();
+        $actualDate = date("d-m-Y H:i:s");
+        $actualDate = date_create($actualDate);
+
+        if(date_diff($endDate,$actualDate)->invert)
+        {
+            foreach($excursion->getRegisterExcursion() as $register){
+                $excursion->removeRegisterExcursion($register);
+            }
+            $excursion->setOrganizer(null);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($excursion);
+            $em->flush();
+
+            $excursionRepository->remove($id);
+        }
+
+        return $this->redirectToRoute('index');
     }
 }

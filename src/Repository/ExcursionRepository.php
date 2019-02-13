@@ -19,32 +19,12 @@ class ExcursionRepository extends ServiceEntityRepository
         parent::__construct($registry, Excursion::class);
     }
 
-    // /**
-    //  * @return Excursion[] Returns an array of Excursion objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    public function remove($id){
+        $dql = "DELETE App\Entity\Excursion e
+                WHERE e.id = :id";
 
-    /*
-    public function findOneBySomeField($value): ?Excursion
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter(':id', $id);
+        $query->execute();
     }
-    */
 }

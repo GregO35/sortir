@@ -71,10 +71,14 @@
                     {% endfor %}
 
                     {% if excursion.endDate|date("d-m-Y H:i:s") < "now"|date("d-m-Y H:i:s") %}
-                        {% if not registerUser %}
-                            <a href="{{ path('excursion_register',{'id': excursion.id}) }}">S'inscrire -</a>
-                        {% elseif registerUser %}
-                            <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
+                        {% if app.user.username != excursion.organizer.username %}
+                            {% if not registerUser %}
+                                <a href="{{ path('excursion_register',{'id': excursion.id}) }}">S'inscrire -</a>
+                            {% elseif registerUser %}
+                                <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('excursion_delete',{'id': excursion.id}) }}">Annuler</a>
                         {% endif %}
                     {% endif %}
                     <a href="#">Afficher</a>

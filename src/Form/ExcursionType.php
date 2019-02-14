@@ -32,7 +32,7 @@ class ExcursionType extends AbstractType
                 'label' => 'Description'
             ])
             ->add('duration', NumberType::class,[
-                'label' => 'Durée de la sortie'
+                'label' => 'Durée de la sortie (en minutes)'
             ])
             ->add('urlPicture')
         ;

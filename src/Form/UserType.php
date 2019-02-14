@@ -31,11 +31,12 @@ class UserType extends AbstractType
                 'type'=>PasswordType::class,
                 'invalid_message'=>'Les 2 mots de passe doivent matcher',
                 'options'=>['attr'=>['class'=>'password-field']],
+                'empty_data' => '',
                 'required'=> true,
                 'first_options'=>['label'=>"Mot de passe :"],
                 'second_options' => ['label'=>"Confirmation :"],
              ])
-            ->add('photoFile', FileType::class, ['label'=> 'Ma photo'])
+            ->add('photo_file', FileType::class, ['data_class' => null,'required' => false, 'label'=> 'Ma photo :'])
         ;
 
 //            ->add('nom_site', EntityType::class, [

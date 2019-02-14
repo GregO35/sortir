@@ -10,15 +10,19 @@
 
     <div class="row">
 
-        <div class="col">
-            <img class="photo" alt="Photo" src="{{ asset('img/Photo.png') }}">
+        <div class="col align-center">
+            {% if app.user.photo_file %}
+                <img class="photo" alt="Photo" src="{{ asset('uploads/photoFiles/' ~ app.user.photo_file) }}"/>
+            {% else %}
+                <img class="photo" alt="Photo" src="{{ asset('img/Photo.png') }}">
+            {% endif %}
         </div>
         <div class="col">
             {#Affiche le formulaire de la classe User#}
             <div>
             {{ form_start(userForm, {'attr':{'novalidate':'novalidate'}}) }}
             {{ form_widget(userForm)}}
-                {{ form_row(userForm.photoFile) }}
+                {{ form_row(userForm.photo_file) }}
                 <br>
 
                 <div>

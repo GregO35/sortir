@@ -75,13 +75,18 @@ class ExcursionController extends AbstractController
     public function addExcursion(Request $request)
     {
         $excursion = new Excursion();
+
+        $dateTime = date_create();
+        $excursion->setStartDate($dateTime);
+        $excursion->setEndDate($dateTime);
+
         $excursionForm = $this->createForm(ExcursionType::class, $excursion);
         $excursionForm->handleRequest($request);
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
             $stateRepository = $this->getDoctrine()->getRepository(State::class);
-            $stateInitial = $stateRepository->find(3);
+            $stateInitial = $stateRepository->find(5);
 
             $excursion->setOrganizer($this->getUser());
             $excursion->setState($stateInitial);
@@ -152,6 +157,64 @@ class ExcursionController extends AbstractController
         }
 
         return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route(
+     *     "/sortir/sortie/modifier/{id}",
+     *     name="excursion_modif",
+     *     requirements={"id":"\d+"}
+     * )
+     */
+    public function modifExcursion(Request $request, $id)
+    {
+        $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $excursion = $excursionRepository->find($id);
+        $previousState = $excursion->getState();
+
+        $excursionForm = $this->createForm(ExcursionType::class, $excursion);
+        $excursionForm->handleRequest($request);
+
+        if($excursionForm->isSubmitted() && $excursionForm->isValid())
+        {
+            $excursion->setOrganizer($this->getUser());
+            $excursion->setState($previousState);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($excursion);
+            $em->flush();
+
+            return $this->redirectToRoute('index');
+        }
+
+        return $this->render("excursion/modif.html.twig",[
+            'excursionForm' => $excursionForm->createView(),
+            'id' => $id
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/sortir/sortie/publication/{id}",
+     *     name="excursion_publish",
+     *     requirements={"id":"\d+"}
+     *     )
+     */
+    public function publishExcursion($id)
+    {
+        $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $stateRepository = $this->getDoctrine()->getRepository(State::class);
+
+        $excursion = $excursionRepository->find($id);
+        $stateOpen = $stateRepository->find(3);
+
+        $excursion->setState($stateOpen);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($excursion);
+        $em->flush();
+
+        return $this->redirectToRoute("index");
     }
 
     /**

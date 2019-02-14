@@ -118,7 +118,7 @@
                                 <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
                             {% endif %}
                         {% else %}
-                            <a href="{{ path('excursion_delete',{'id': excursion.id}) }}">Annuler</a>
+                            <a href="{{ path('excursion_modif',{'id': excursion.id}) }}">Modifier -</a>
                         {% endif %}
                     {% endif %}
                     <a href="{{ path('excursion_details', {'id': excursion.id}) }}">Afficher</a>

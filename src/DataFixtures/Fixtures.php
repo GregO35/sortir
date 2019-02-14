@@ -108,7 +108,7 @@ class Fixtures extends Command
             $user->setRoles($faker->randomElements($roles));
             $user->setFirstName($faker->name);
             $user->setName($faker->name);
-            $user->setPhone($faker->numerify("##########"));
+            $user->setPhone($faker->numerify("02########"));
             $user->setActif(true);
             $user->setAdministrator(false);
 

@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\PasswordType;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -73,5 +71,21 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route(
+     *     "sortir/utilisateur/profil/{id}",
+     *     name="user_detail",
+     *     requirements={"id":"\d+"},
+     *     methods={"GET"}
+     * )
+     */
+    public function detailUser($id)
+    {
+           $userRepository = $this->getDoctrine()->getRepository(User::class);
+           $user = $userRepository->find($id);
 
+           return $this->render("user/detail.html.twig",[
+               "user" => $user
+           ]);
+    }
 }

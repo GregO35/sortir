@@ -38,6 +38,16 @@ label{
     color: #1b1e21;
 }
 
+.user-profil
+{
+    margin: 20px 0;
+}
+
+.font-size-24
+{
+    font-size: 24px;
+}
+
 .photo{
     height: 200px;
 }

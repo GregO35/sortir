@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}profil utilisateur{% endblock %}
+
+{% block content %}
+
+    <div class="container text-center font-size-24">
+
+        <h1>Profil de {{ user.username }}</h1>
+
+        <div class="user-profil">
+            <label for="firstname">Prénom:</label>
+            <label id="firstname">{{ user.firstName }}</label>
+        </div>
+
+        <div class="user-profil">
+            <label for="name">nom:</label>
+            <label id="name">{{ user.name }}</label>
+        </div>
+
+        <div class="user-profil">
+            <label for="phone">Téléphone:</label>
+            <label id="phone">{{ user.phone }}</label>
+        </div>
+
+        <div class="user-profil">
+            <label for="mail">Email:</label>
+            <label id="mail">{{ user.mail }}</label>
+        </div>
+
+        <div class="user-profil">
+            <a href="{{ path('index') }}" class="btn btn-primary">Retour</a>
+        </div>
+
+    </div>
+{% endblock %}
+

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Excursion;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -26,5 +27,58 @@ class ExcursionRepository extends ServiceEntityRepository
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter(':id', $id);
         $query->execute();
+    }
+
+    public function findAllByFilters($site, $name, $startDate, $endDate,
+                 $organizer, $register, $notRegister, $passedExcursion, User $user)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        if($name !== "")
+        {
+            $qb->orWhere('e.name LIKE :name');
+            $qb->setParameter('name', "%".$name."%");
+        }
+
+        if($startDate !== "")
+        {
+            $qb->orWhere('e.startDate > :startdate');
+            $qb->setParameter('startdate', $startDate);
+        }
+
+        if($endDate !== "")
+        {
+            $qb->orWhere('e.startDate < :enddate');
+            $qb->setParameter('enddate', $endDate);
+        }
+
+        if($organizer)
+        {
+            $qb->orWhere('e.organizer = :organizer');
+            $qb->setParameter('organizer', $user);
+        }
+
+        if($register)
+        {
+            $qb->orWhere('e.RegisterExcursion = :register');
+            $qb->setParameter('register', $user->getId());
+        }
+
+        if($notRegister)
+        {
+            $qb->orWhere('e.RegisterExcursion <> :notregister');
+            $qb->setParameter('notregister', $user->getId());
+        }
+
+        if($passedExcursion)
+        {
+            $qb->orWhere('e.startDate < :now');
+            $qb->setParameter('now', date("Y-m-d H:i:s"));
+        }
+
+        $query = $qb->getQuery();
+        $excursions = $query->getResult();
+
+        return $excursions;
     }
 }

@@ -38,6 +38,21 @@ label{
     color: #1b1e21;
 }
 
+.search_excursion
+{
+    margin: 10px 0px;
+}
+
+.checkbox-excursion
+{
+    margin-top: 50px;
+}
+
+.button-excursion
+{
+    margin-top: 80px;
+}
+
 .user-profil
 {
     margin: 20px 0;

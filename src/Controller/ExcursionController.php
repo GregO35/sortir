@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Entity\State;
 use App\Entity\Excursion;
-use App\Entity\User;
 use App\Form\ExcursionType;
-use App\Repository\ExcursionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,19 +13,57 @@ class ExcursionController extends AbstractController
 {
 
     /**
-     * @Route("/sortir/accueil", name="index", methods={"GET"})
+     * @Route(
+     *     "/sortir/accueil",
+     *     name="index",
+     *     methods={"GET","POST"})
      */
     //requête pour afficher toutes les sorties (pour tester!) et les afficher (pour tester aussi!)
     public function listExcursion()
     {
-        $excursionRepository = $this
-            ->getDoctrine()
-            ->getRepository(Excursion::class);
+        $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
 
-        $excursion = $excursionRepository->findAll();
-        //dd($excursion);
+        if($_POST)
+        {
+            $site = $_POST["sell"];
+            $name = $_POST["name"];
+            $dateStart = $_POST["date_start"];
+            $dateEnd = $_POST["date_end"];
+            $organizer = false;
+            $register = false;
+            $notRegister = false;
+            $passedExcursion = false;
+
+            if(isset($_POST["organizer"]))
+            {
+                $organizer = true;
+            }
+
+            if(isset($_POST["register"]))
+            {
+                $register = true;
+            }
+
+            if(isset($_POST["not_register"]))
+            {
+                $notRegister = true;
+            }
+
+            if(isset($_POST["passed_excursion"]))
+            {
+                $passedExcursion = true;
+            }
+
+            $excursions = $excursionRepository->findAllByFilters($site, $name, $dateStart, $dateEnd,
+                                    $organizer, $register, $notRegister, $passedExcursion, $this->getUser());
+        }
+        else
+        {
+            $excursions = $excursionRepository->findAll();
+        }
+
         return $this->render('default/index.html.twig', [
-            "excursions"=>$excursion
+            "excursions"=>$excursions
         ]);
     }
 

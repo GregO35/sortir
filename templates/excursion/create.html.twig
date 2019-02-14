@@ -5,14 +5,16 @@
 {% block content %}
     <h1>Ajouter votre sortie</h1>
 
-    {{ form_start(excursionForm, {
-        'attr': {
-            'novalidate': 'novalidate'
-        }})
-    }}
+    <div class="container">
+        {{ form_start(excursionForm, {
+            'attr': {
+                'novalidate': 'novalidate'
+            }})
+        }}
 
-    {{ form_widget(excursionForm) }}
+        {{ form_widget(excursionForm) }}
 
-    <button class="btn btn-success">Envoyer !</button>
-    {{ form_end(excursionForm) }}
+        <button class="btn btn-success">Envoyer !</button>
+        {{ form_end(excursionForm) }}
+    </div>
 {% endblock %}

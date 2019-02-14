@@ -84,7 +84,7 @@ class Fixtures extends Command
         $users = [];
 
         $user = new User();
-        $user->setUsername("test");
+        $user->setUsername("Test1");
         $user->setMail("test@gmail.com");
         $user->setPassword($this->encoder->encodePassword($user, $user->getUsername()));
         $user->setRoles(["user"]);

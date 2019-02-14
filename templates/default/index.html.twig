@@ -54,6 +54,7 @@
             </tr>
 
             {% for excursion in excursions %}
+            {% if excursion.endDate|date("U") > "-2592000second"|date('U') %}
             <tr class="text-center">
                 <td class="">{{ excursion.name }}</td>
                 <td class="">{{ excursion.startDate | date ('d-m-Y') }}</td>
@@ -70,11 +71,11 @@
                         {% endif %}
                     {% endfor %}
 
-                    {% if excursion.endDate|date("d-m-Y H:i:s") < "now"|date("d-m-Y H:i:s") %}
+                    {% if excursion.endDate|date("U") > "now"|date("U") %}
                         {% if app.user.username != excursion.organizer.username %}
                             {% if not registerUser %}
                                 <a href="{{ path('excursion_register',{'id': excursion.id}) }}">S'inscrire -</a>
-                            {% elseif registerUser %}
+                            {% else %}
                                 <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
                             {% endif %}
                         {% else %}
@@ -83,6 +84,7 @@
                     {% endif %}
                     <a href="#">Afficher</a>
                 </td>
+                {% endif %}
             </tr>
 
             {% endfor %}

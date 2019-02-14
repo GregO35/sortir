@@ -135,7 +135,6 @@ class ExcursionController extends AbstractController
             foreach($excursion->getRegisterExcursion() as $register){
                 $excursion->removeRegisterExcursion($register);
             }
-            $excursion->setOrganizer(null);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($excursion);

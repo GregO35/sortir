@@ -10,7 +10,7 @@
         </div>
     </div>
 
-
+<div  id="excursion">
     <div class="row">
         <div class="col-sm">Nom de la sortie : </div>
         <div class="col-sm"><h5>{{ excursion.name }}</h5></div>
@@ -59,7 +59,7 @@
         <div class="col-sm">Longitude :</div>
         <div class="col-sm"><h5></h5></div>
     </div>
-
+</div>
 <br>
 
 {#Tableau Liste des participants inscrits#}
@@ -76,7 +76,7 @@
             {% for participant in participants %}
                 <tr>
                     <td>{{ participant.username }}</td>
-                    <td>{{ participant.firstName }} {{ participant.name }}</td>
+                    <td><a href="{{ path('user_detail', {'id': participant.id}) }}"> {{ participant.firstName }} {{ participant.name }}</a></td>
                 </tr>
             {% endfor %}
         </table>

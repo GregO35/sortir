@@ -32,13 +32,8 @@ class ExcursionRepository extends ServiceEntityRepository
     public function findAllByFilters($site, $name, $startDate, $endDate,
                  $organizer, $register, $notRegister, $passedExcursion, User $user)
     {
-        $qb = $this->createQueryBuilder('e');
-
-        if($name !== "")
-        {
-            $qb->orWhere('e.name LIKE :name');
-            $qb->setParameter('name', "%".$name."%");
-        }
+        $qb = $this->createQueryBuilder('e')
+            ->leftJoin("e.RegisterExcursion", 'r');
 
         if($startDate !== "")
         {
@@ -60,13 +55,13 @@ class ExcursionRepository extends ServiceEntityRepository
 
         if($register)
         {
-            $qb->orWhere('e.RegisterExcursion = :register');
+            $qb->orWhere('r.id = :register');
             $qb->setParameter('register', $user->getId());
         }
 
         if($notRegister)
         {
-            $qb->orWhere('e.RegisterExcursion <> :notregister');
+            $qb->orWhere('r.id != :notregister');
             $qb->setParameter('notregister', $user->getId());
         }
 
@@ -74,6 +69,12 @@ class ExcursionRepository extends ServiceEntityRepository
         {
             $qb->orWhere('e.startDate < :now');
             $qb->setParameter('now', date("Y-m-d H:i:s"));
+        }
+
+        if($name !== "")
+        {
+            $qb->andWhere('e.name LIKE :name');
+            $qb->setParameter('name', "%".$name."%");
         }
 
         $query = $qb->getQuery();

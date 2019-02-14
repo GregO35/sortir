@@ -78,7 +78,7 @@ class Fixtures extends Command
         }
         $this->em->flush();
 
-        $io->progressStart(20);
+        $io->progressStart(40);
 
         $roles = ["admin","user"];
         $users = [];
@@ -118,15 +118,16 @@ class Fixtures extends Command
         }
 
         //fixtures pour la table sortie pour affichage dans le tableau de la page accueil
-            for($j=0;$j<10;$j++){
+            for($j=0;$j<20;$j++){
+                $io->progressAdvance(1);
+
                 $excursion=new Excursion();
 
                 $excursion->setName($faker->city);
-                $excursion->setStartDate($faker->dateTimeBetween('-1year','+1year'));
+                $excursion->setStartDate($faker->dateTimeBetween('-4month','+2month'));
 
                 $interval = new \DateInterval("P0Y5D");
-                $excursion->setEndDate($faker->dateTimeBetween($excursion->getStartDate(),
-                                                        date_add($excursion->getStartDate(), $interval)));
+                $excursion->setEndDate($faker->dateTimeBetween($excursion->getStartDate(), $excursion->getStartDate()));
 
                 $excursion->setRegistrationNumberMax($faker->numberBetween(5,20));
                 $excursion->setState($faker->randomElement($allStates));

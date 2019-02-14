@@ -59,12 +59,27 @@
         <div class="col-sm">Longitude :</div>
         <div class="col-sm"><h5></h5></div>
     </div>
-</div>
+
+<br>
 
 {#Tableau Liste des participants inscrits#}
-<div class="container">
-    <div class="row">
 
+    <div class="table-responsive">
+        <h5>Liste des participants inscrits :</h5>
+        <table class="table table-striped">
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+            </tr>
+
+            {# affichage des participants#}
+            {% for participant in participants %}
+                <tr>
+                    <td>{{ participant.username }}</td>
+                    <td>{{ participant.firstName }} {{ participant.name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
 </div>
 

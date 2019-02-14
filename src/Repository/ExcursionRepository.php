@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repository;
-
+use App\Entity\User;
 use App\Entity\Excursion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -27,4 +27,6 @@ class ExcursionRepository extends ServiceEntityRepository
         $query->setParameter(':id', $id);
         $query->execute();
     }
+
+
 }

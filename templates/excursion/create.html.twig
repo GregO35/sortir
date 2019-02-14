@@ -3,18 +3,29 @@
 {% block title %}Ajout excursion{% endblock %}
 
 {% block content %}
+
     <h1>Ajouter votre sortie</h1>
 
     <div class="container">
+
         {{ form_start(excursionForm, {
             'attr': {
                 'novalidate': 'novalidate'
             }})
         }}
 
-        {{ form_widget(excursionForm) }}
+        {{ form_row(excursionForm.name) }}
+        {{ form_row(excursionForm.startDate) }}
+        {{ form_row(excursionForm.endDate) }}
+        {{ form_row(excursionForm.registrationNumberMax) }}
+        {{ form_row(excursionForm.description) }}
+        {{ form_row(excursionForm.duration) }}
+        {{ form_row(excursionForm.urlPicture) }}
 
         <button class="btn btn-success">Envoyer !</button>
         {{ form_end(excursionForm) }}
+
     </div>
+
+
 {% endblock %}

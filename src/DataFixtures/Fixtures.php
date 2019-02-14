@@ -65,7 +65,7 @@ class Fixtures extends Command
         $io->text("Tables are now empty...");
 
         // stocker et utiliser la table state dans les fixtures
-        $states = ['En cours', 'Fermé', 'Ouvert', 'Complet'];
+        $states = ['En cours', 'Fermé', 'Ouvert', 'Complet', 'En création'];
 
         $allStates = [];
 
@@ -126,7 +126,6 @@ class Fixtures extends Command
                 $excursion->setName($faker->city);
                 $excursion->setStartDate($faker->dateTimeBetween('-4month','+2month'));
 
-                $interval = new \DateInterval("P0Y5D");
                 $excursion->setEndDate($faker->dateTimeBetween($excursion->getStartDate(), $excursion->getStartDate()));
 
                 $excursion->setRegistrationNumberMax($faker->numberBetween(5,20));

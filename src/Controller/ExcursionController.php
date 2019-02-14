@@ -181,4 +181,27 @@ class ExcursionController extends AbstractController
 
         return $this->redirectToRoute('index');
     }
+
+
+    /**
+     * @Route("/sortir/sortie/afficher/{id}",
+     *      name="excursion_details",
+     *      requirements={"id":"\d+"},
+     *      methods={"GET","POST"})
+     */
+    public function excursionDetails($id, Request $request){
+        //récupère les détails de l'excursion grâce à l'id
+        $excursionRepository= $this->getDoctrine()->getRepository(Excursion::class);
+
+        $excursion= $excursionRepository->find($id);
+
+        //récupère les participants de l'excursion
+        $participantsRepository= $this->getDoctrine()->getRepository(User::class);
+        $participants= $participantsRepository->findParticipants($id);
+
+        return $this->render("excursion/details.html.twig",[
+            'excursion' => $excursion,
+            'participants'=>$participants
+        ]);
+    }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Excursion;
 use App\Entity\User;
+use App\Entity\Excursion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

@@ -8,8 +8,10 @@ body .container {
     flex-direction: column;
 }
 
-
-header {
+#excursion {
+    -webkit-columns: 300px 2;
+    -moz-columns: 300px 2;
+    columns: 300px 2;
 }
 
 header .site-title {

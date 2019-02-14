@@ -121,7 +121,7 @@
                             <a href="{{ path('excursion_delete',{'id': excursion.id}) }}">Annuler</a>
                         {% endif %}
                     {% endif %}
-                    <a href="#">Afficher</a>
+                    <a href="{{ path('excursion_details', {'id': excursion.id}) }}">Afficher</a>
                 </td>
                 {% endif %}
             </tr>

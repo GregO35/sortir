@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+{#Détails d'une sortie#}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3 text-center">
+            <h2 class="h3 mb-3 font-weight-normal">Afficher une sortie</h2>
+        </div>
+    </div>
+
+<div  id="excursion">
+    <div class="row">
+        <div class="col-sm">Nom de la sortie : </div>
+        <div class="col-sm"><h5>{{ excursion.name }}</h5></div>
+    </div>
+    <div class="row">
+        <div class="col">Date et heure de la sortie : </div>
+        <div class="col"><h5>{{ excursion.startDate|date ('d-m-Y') }}</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Date limite d'inscription :</div>
+        <div class="col-sm"><h5>{{ excursion.endDate|date ('d-m-Y') }}</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Nombre de places :</div>
+        <div class="col-sm"><h5>{{ excursion.registrationNumberMax }}</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Durée :</div>
+        <div class="col-sm"><h5>{{ excursion.duration}} minutes</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Description et infos :</div>
+        <div class="col-sm"><h5>{{ excursion.description }}</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Ville organisatrice :</div>
+        <div class="col-sm"><h5></h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Lieu :</div>
+        <div class="col-sm"><h5></h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Rue :</div>
+        <div class="col-sm"><h5></h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Code Postal :</div>
+        <div class="col-sm"><h5></h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Latitude :</div>
+        <div class="col-sm"><h5></h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">Longitude :</div>
+        <div class="col-sm"><h5></h5></div>
+    </div>
+</div>
+<br>
+
+{#Tableau Liste des participants inscrits#}
+
+    <div class="table-responsive">
+        <h5>Liste des participants inscrits :</h5>
+        <table class="table table-striped">
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+            </tr>
+
+            {# affichage des participants#}
+            {% for participant in participants %}
+                <tr>
+                    <td>{{ participant.username }}</td>
+                    <td><a href="{{ path('user_detail', {'id': participant.id}) }}"> {{ participant.firstName }} {{ participant.name }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{#Affichage de la carte du lieu de la sortie#}
+<div class="container">
+    <div class="row">
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block title %}Afficher une sortie{% endblock %}
+

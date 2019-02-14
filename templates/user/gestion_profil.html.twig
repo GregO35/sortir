@@ -3,8 +3,10 @@
 {% block title %}Gestion_profil{% endblock %}
 
 {% block content %}
-
-    <h1>Mon profil</h1>
+    <br>
+    <div class="col-sm-6 offset-sm-3 text-center">
+        <h2 class="h3 mb-3 font-weight-normal">Mon profil</h2>
+    </div>
 
     <div class="row">
 
@@ -16,22 +18,7 @@
             <div>
             {{ form_start(userForm, {'attr':{'novalidate':'novalidate'}}) }}
             {{ form_widget(userForm)}}
-
-                {#Affiche le champ Confirmation de mot de passe; la saisie de l'utilisateur sera cachée
-                <div class="row">
-                    <div class="col"><label for="inputConfirmation" class="float-left">Confirmation : </label></div>
-                    <div class="col"><input type="password" name="passwordConfirmation" id="inputConfirmation"
-                                            placeholder="Votre mot de passe" required>
-
-                        <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}"></div>
-                </div>#}
-
-                <div class="row">
-                    <div class="col"><label for="inputMaPhoto" class="float-left">Ma photo :</label></div>
-                    <div class="col"><button class="btn btn-lg btn-primary float-left" type="submit">Télécharger vers le serveur</div>
-                </div>
-
+                {{ form_row(userForm.photoFile) }}
                 <br>
 
                 <div>
@@ -40,21 +27,6 @@
                 </div>
             {{ form_end(userForm) }}
             </div>
-
-           {# <div class="row">
-                <div class="col"><label for="inputPassword" class="float-left">Mot de passe : </label></div>
-                <div class="col"><input type="password" name="password" id="inputPassword"
-                                        required>
-
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}"></div>
-            </div>
-
-            #}
-
-
-
-
         </div>
         <div class="col">
         </div>

@@ -109,6 +109,14 @@ class User implements UserInterface
      */
     private $excursions;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\NotBlank(message="Please, upload the product brochure as a jpg file.")
+     * @Assert\File(mimeTypes={ "image/jpg", "image/jpeg", "image/png"})
+     */
+    private $photo_file;
+
 
     public function __construct()
     {
@@ -286,6 +294,18 @@ class User implements UserInterface
             $this->excursions->removeElement($excursion);
             $excursion->removeRegisterExcursion($this);
         }
+
+        return $this;
+    }
+
+    public function getPhotoFile(): ?string
+    {
+        return $this->photo_file;
+    }
+
+    public function setPhotoFile(?string $photo_file): self
+    {
+        $this->photo_file = $photo_file;
 
         return $this;
     }

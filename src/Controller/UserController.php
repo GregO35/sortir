@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 class UserController extends AbstractController
@@ -30,13 +32,9 @@ class UserController extends AbstractController
 
             //enregistre le formulaire dans la BDD
             $userForm->handleRequest($request);
-            //dd($request);
+
 
             if ($userForm->isSubmitted() && $userForm->isValid()) {
-
-                    //dd($userPassword);
-                    //dd($userConfirmation);
-
 
                     //Encode le password tapé par l'utilisateur
                     $user->setPassword(
@@ -45,6 +43,25 @@ class UserController extends AbstractController
                             $userForm->get('password')->getData()
                         )
                     );
+
+                    //$file enregistre le fichier uploadé de la photo
+                    /**@var Symfony\Component\HttpFoundation\File\UploadedFile $file*/
+                    $file = $user->getPhotoFile();
+                    $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+
+                    // Déplace le fichier dans le répertoire
+                    try {
+                        $file->move(
+                            $this->getParameter('photos_profil'),
+                            $fileName
+                        );
+                    } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    }
+
+                    // met à jour la propriété photoFile de User pour enregistrer le nom du fichier
+                    $user->setPhotoFile($fileName);
+
 
                     //Retourne l'entity manager:
                     $em = $this->getDoctrine()->getManager();

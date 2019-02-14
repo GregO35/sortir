@@ -61,7 +61,10 @@
                 <td class="">{{ excursion.endDate | date ('d-m-Y')}}</td>
                 <td class="">{{ excursion.registerExcursion.count }} / {{ excursion.registrationNumberMax }}</td>
                 <td class="">{{ excursion.state.libelle }}</td>
-                <td class="">{{ excursion.organizer.name }}</td>
+
+                <td class=""><a href="{{ path("user_detail",{'id': excursion.organizer.id}) }}">
+                        {{ excursion.organizer.name }}</a></td>
+
                 <td class="">
 
                     {% set registerUser = false %}

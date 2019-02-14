@@ -86,6 +86,11 @@ class Excursion
      */
     private $RegisterExcursion;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $cancelMessage;
+
     public function __construct()
     {
         $this->RegisterExcursion = new ArrayCollection();
@@ -240,6 +245,18 @@ class Excursion
         if ($this->RegisterExcursion->contains($registerExcursion)) {
             $this->RegisterExcursion->removeElement($registerExcursion);
         }
+
+        return $this;
+    }
+
+    public function getCancelMessage(): ?string
+    {
+        return $this->cancelMessage;
+    }
+
+    public function setCancelMessage(?string $cancelMessage): self
+    {
+        $this->cancelMessage = $cancelMessage;
 
         return $this;
     }

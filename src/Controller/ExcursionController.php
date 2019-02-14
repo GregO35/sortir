@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\State;
 use App\Entity\Excursion;
 use App\Form\ExcursionType;
@@ -56,6 +57,7 @@ class ExcursionController extends AbstractController
 
             $excursions = $excursionRepository->findAllByFilters($site, $name, $dateStart, $dateEnd,
                                     $organizer, $register, $notRegister, $passedExcursion, $this->getUser());
+
         }
         else
         {

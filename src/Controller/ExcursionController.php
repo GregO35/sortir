@@ -156,7 +156,7 @@ class ExcursionController extends AbstractController
     public function excursionDetails($id, Request $request){
         $excursionRepository= $this->getDoctrine()->getRepository(Excursion::class);
         $excursion= $excursionRepository->find($id);
-
+        //dd($excursion);
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion
         ]);

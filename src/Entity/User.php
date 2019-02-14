@@ -115,7 +115,7 @@ class User implements UserInterface
      * @Assert\NotBlank(message="Please, upload the product brochure as a jpg file.")
      * @Assert\File(mimeTypes={ "image/jpg", "image/jpeg", "image/png"})
      */
-    private $photo_file;
+    public $photo_file;
 
 
     public function __construct()

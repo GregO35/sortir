@@ -116,6 +116,11 @@ class User implements UserInterface
      */
     public $photo_file;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="user")
+     */
+    private $site;
+
 
     public function __construct()
     {
@@ -305,6 +310,18 @@ class User implements UserInterface
     public function setPhotoFile(?string $photo_file): self
     {
         $this->photo_file = $photo_file;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }

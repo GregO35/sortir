@@ -37,6 +37,13 @@
                         <a class="nav-link" href="{{ path('index') }}">Index</a>
                         <a class="nav-link" href="{{ path('gestion_profil') }}">Mon profil</a>
                         <a class="nav-link" href="{{ asset("logout") }}">Se deconnecter</a>
+
+                        {% if app.user.roles[0] == "admin" %}
+
+                            <a class="nav-link" href="{{ asset('register') }}">Créer un nouvel utilisateur</a>
+
+                        {% endif %}
+
                     {% else %}
                         <a class="nav-link" href="{{ asset('login') }}">Se connecter</a>
                         <a class="nav-link" href="{{ asset('register') }}">S'inscrire</a>

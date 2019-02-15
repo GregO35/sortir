@@ -17,7 +17,8 @@ class ExcursionController extends AbstractController
      * @Route(
      *     "/sortir/accueil",
      *     name="index",
-     *     methods={"GET","POST"})
+     *     methods={"GET","POST"}
+     *     )
      */
     //requête pour afficher toutes les sorties (pour tester!) et les afficher (pour tester aussi!)
     public function listExcursion()
@@ -70,7 +71,10 @@ class ExcursionController extends AbstractController
     }
 
     /**
-     * @Route("/sortir/sortie/creer", name="excursion_add")
+     * @Route(
+     *     "/sortir/sortie/creer",
+     *     name="excursion_add"
+     *     )
      */
     public function addExcursion(Request $request)
     {
@@ -104,7 +108,8 @@ class ExcursionController extends AbstractController
     }
 
     /**
-     * @Route("/sortir/sortie/inscription/{id}",
+     * @Route(
+     *     "/sortir/sortie/inscription/{id}",
      *     name="excursion_register",
      *     requirements={"id":"\d+"},
      *     )
@@ -127,15 +132,27 @@ class ExcursionController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            if($excursion->getRegistrationNumberMax() == $excursion->getRegisterExcursion()->count())
+            {
+
+                $stateRepository = $this->getDoctrine()->getRepository(State::class);
+                $state= $stateRepository->find(4);
+
+                $excursion->setState($state);
+                $em->persist($excursion);
+                $em->flush();
+            }
         }
 
         return $this->redirectToRoute('index');
     }
 
     /**
-     * @Route("/sortir/sortie/désinscription/{id}",
-     *      name="excursion_unregister",
-     *      requirements={"id":"\d+"}
+     * @Route(
+     *     "/sortir/sortie/désinscription/{id}",
+     *     name="excursion_unregister",
+     *     requirements={"id":"\d+"}
      *     )
      */
     public function unregisterExcursion($id){
@@ -149,9 +166,21 @@ class ExcursionController extends AbstractController
 
         if(date_diff($endDate,$actualDate)->invert)
         {
+            $em = $this->getDoctrine()->getManager();
+
+            if($excursion->getRegistrationNumberMax() == $excursion->getRegisterExcursion()->count())
+            {
+
+                $stateRepository = $this->getDoctrine()->getRepository(State::class);
+                $state= $stateRepository->find(3);
+
+                $excursion->setState($state);
+                $em->persist($excursion);
+                $em->flush();
+            }
+
             $user->removeExcursion($excursion);
 
-            $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
         }
@@ -164,7 +193,7 @@ class ExcursionController extends AbstractController
      *     "/sortir/sortie/modifier/{id}",
      *     name="excursion_modif",
      *     requirements={"id":"\d+"}
-     * )
+     *     )
      */
     public function modifExcursion(Request $request, $id)
     {
@@ -189,7 +218,7 @@ class ExcursionController extends AbstractController
 
         return $this->render("excursion/modif.html.twig",[
             'excursionForm' => $excursionForm->createView(),
-            'id' => $id
+            'excursion' => $excursion
         ]);
     }
 
@@ -218,9 +247,10 @@ class ExcursionController extends AbstractController
     }
 
     /**
-     * @Route("/sortir/sortie/annulation/{id}",
-     *      name="excursion_delete",
-     *      requirements={"id":"\d+"}
+     * @Route(
+     *     "/sortir/sortie/annulation/{id}",
+     *     name="excursion_delete",
+     *     requirements={"id":"\d+"}
      *     )
      */
     public function deleteExcursion($id){
@@ -249,7 +279,8 @@ class ExcursionController extends AbstractController
 
 
     /**
-     * @Route("/sortir/sortie/afficher/{id}",
+     * @Route(
+     *      "/sortir/sortie/afficher/{id}",
      *      name="excursion_details",
      *      requirements={"id":"\d+"},
      *      methods={"GET","POST"})
@@ -267,6 +298,39 @@ class ExcursionController extends AbstractController
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,
             'participants'=>$participants
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "sortir/sortie/annuler/{id}",
+     *     name="excursion_cancel",
+     *     requirements={"id": "\d+"},
+     *     methods={"GET","POST"}
+     *     )
+     */
+    public function cancelExcursion($id)
+    {
+        $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $excursion = $excursionRepository->find($id);
+
+        if($_POST)
+        {
+            $stateRepository = $this->getDoctrine()->getRepository(State::class);
+            $stateClose = $stateRepository->find(6);
+
+            $excursion->setState($stateClose);
+            $excursion->setCancelMessage($_POST["description"]);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($excursion);
+            $em->flush();
+
+            return $this->redirectToRoute("index");
+        }
+
+        return $this->render("excursion/cancel.html.twig",[
+            "excursion" => $excursion
         ]);
     }
 }

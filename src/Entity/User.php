@@ -112,7 +112,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=10000, nullable=true)
      *
-     * @Assert\NotBlank(message="Please, upload the product brochure as a jpg file.")
      * @Assert\File(mimeTypes={ "image/jpg", "image/jpeg", "image/png"})
      */
     public $photo_file;

@@ -111,17 +111,18 @@
                     {% endfor %}
 
                     {% if excursion.endDate|date("U") > "now"|date("U") %}
-                        {% if app.user.username != excursion.organizer.username %}
+                        {% if app.user.username != excursion.organizer.username and excursion.state.libelle == "Ouvert" %}
                             {% if not registerUser %}
                                 <a href="{{ path('excursion_register',{'id': excursion.id}) }}">S'inscrire -</a>
                             {% else %}
                                 <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
                             {% endif %}
-                        {% else %}
+                        {% elseif app.user.username == excursion.organizer.username %}
                             <a href="{{ path('excursion_modif',{'id': excursion.id}) }}">Modifier -</a>
                         {% endif %}
                     {% endif %}
                     <a href="{{ path('excursion_details', {'id': excursion.id}) }}">Afficher</a>
+
                 </td>
                 {% endif %}
             </tr>

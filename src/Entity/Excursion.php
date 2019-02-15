@@ -91,6 +91,16 @@ class Excursion
      */
     private $cancelMessage;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="excursion")
+     */
+    private $site;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="excursion")
+     */
+    private $place;
+
     public function __construct()
     {
         $this->RegisterExcursion = new ArrayCollection();
@@ -257,6 +267,30 @@ class Excursion
     public function setCancelMessage(?string $cancelMessage): self
     {
         $this->cancelMessage = $cancelMessage;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

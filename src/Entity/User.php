@@ -47,6 +47,7 @@ class User implements UserInterface
      *      pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/",
      *      message="Utilisez au moins 1 majuscule, 1 minuscule et 1 nombre"
      *      )
+     * @Assert\NotNull(message="Veuillez saisir un mot de passe")
      * @Assert\NotBlank(message="Veuillez saisir un mot de passe")
      * @Assert\Length(
      *     max=30,
@@ -111,10 +112,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=10000, nullable=true)
-     *
      * @Assert\File(mimeTypes={ "image/jpg", "image/jpeg", "image/png"})
      */
     public $photo_file;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="user")
+     */
+    private $site;
 
 
     public function __construct()
@@ -305,6 +310,18 @@ class User implements UserInterface
     public function setPhotoFile(?string $photo_file): self
     {
         $this->photo_file = $photo_file;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }

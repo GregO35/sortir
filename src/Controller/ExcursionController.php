@@ -295,6 +295,7 @@ class ExcursionController extends AbstractController
         $participantsRepository= $this->getDoctrine()->getRepository(User::class);
         $participants= $participantsRepository->findParticipants($id);
 
+
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,
             'participants'=>$participants

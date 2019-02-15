@@ -45,6 +45,11 @@ label{
     color: #1b1e21;
 }
 
+footer
+{
+    margin: 20px;
+}
+
 .search_excursion
 {
     margin: 10px 0px;

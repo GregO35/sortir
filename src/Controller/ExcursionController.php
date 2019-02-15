@@ -93,7 +93,9 @@ class ExcursionController extends AbstractController
             $stateInitial = $stateRepository->find(5);
 
             $excursion->setOrganizer($this->getUser());
+            //Rajoute l'organisateur en tant que participant à l'excursion
             $this->getUser()->addExcursion($excursion);
+
             $excursion->setState($stateInitial);
 
             $em = $this->getDoctrine()->getManager();

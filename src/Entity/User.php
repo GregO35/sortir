@@ -47,6 +47,7 @@ class User implements UserInterface
      *      pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/",
      *      message="Utilisez au moins 1 majuscule, 1 minuscule et 1 nombre"
      *      )
+     * @Assert\NotNull(message="Veuillez saisir un mot de passe")
      * @Assert\NotBlank(message="Veuillez saisir un mot de passe")
      * @Assert\Length(
      *     max=30,
@@ -111,8 +112,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=10000, nullable=true)
-     *
-     * @Assert\NotBlank(message="Please, upload the product brochure as a jpg file.")
      * @Assert\File(mimeTypes={ "image/jpg", "image/jpeg", "image/png"})
      */
     public $photo_file;

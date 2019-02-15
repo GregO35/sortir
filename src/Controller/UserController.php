@@ -23,7 +23,6 @@ class UserController extends AbstractController
      */
     public function manage(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-
             $user = $this->getUser();
             //dd($user);
 
@@ -34,35 +33,42 @@ class UserController extends AbstractController
             $userForm->handleRequest($request);
 
 
+
             if ($userForm->isSubmitted() && $userForm->isValid()) {
 
-                    //Encode le password tapé par l'utilisateur
-                    $user->setPassword(
-                        $passwordEncoder->encodePassword(
-                            $user,
-                            $userForm->get('password')->getData()
-                        )
-                    );
+
+
+                        //Encode le password tapé par l'utilisateur
+                        $user->setPassword(
+                            $passwordEncoder->encodePassword(
+                                $user,
+                                $userForm->get('password')->getData()
+                            )
+                        );
+
 
                     //$file enregistre le fichier uploadé de la photo
-
                     /**@var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+
                     $file = $userForm->get('photo_file')->getData();
-                    $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
 
-                    // Déplace le fichier dans le répertoire
-                    try {
-                        $file->move(
-                            $this->getParameter('photos_profil'),
-                            $fileName
-                        );
-                    } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    if($file !== null) {
+
+                        $fileName = $this->generateUniqueFileName() . '.' . $file->guessExtension();
+
+                        // Déplace le fichier dans le répertoire
+                        try {
+                            $file->move(
+                                $this->getParameter('photos_profil'),
+                                $fileName
+                            );
+                        } catch (FileException $e) {
+                            // ... handle exception if something happens during file upload
+                        }
+
+                        // met à jour la propriété photoFile de User pour enregistrer le nom du fichier
+                        $user->setPhotoFile($fileName);
                     }
-
-                    // met à jour la propriété photoFile de User pour enregistrer le nom du fichier
-                    $user->setPhotoFile($fileName);
-
 
                     //Retourne l'entity manager:
                     $em = $this->getDoctrine()->getManager();

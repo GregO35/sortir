@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method City|null find($id, $lockMode = null, $lockVersion = null)
  * @method City|null findOneBy(array $criteria, array $orderBy = null)
  * @method City[]    findAll()
- * @method City[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method City[]    findBy(array $sites, array $orderBy = null, $limit = null, $offset = null)
  */
 class CityRepository extends ServiceEntityRepository
 {
@@ -18,6 +18,7 @@ class CityRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, City::class);
     }
+
 
     // /**
     //  * @return City[] Returns an array of City objects

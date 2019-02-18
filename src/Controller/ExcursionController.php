@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\User;
 use App\Entity\State;
 use App\Entity\Excursion;
+use App\Form\CityType;
 use App\Form\ExcursionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,11 +75,13 @@ class ExcursionController extends AbstractController
     /**
      * @Route(
      *     "/sortir/sortie/creer",
-     *     name="excursion_add"
+     *     name="excursion_add",
+     *     methods={"GET","POST"}
      *     )
      */
     public function addExcursion(Request $request)
     {
+        //Création du formulaire d'excursion
         $excursion = new Excursion();
 
         $dateTime = date_create();
@@ -86,6 +90,15 @@ class ExcursionController extends AbstractController
 
         $excursionForm = $this->createForm(ExcursionType::class, $excursion);
         $excursionForm->handleRequest($request);
+
+        //Formulaire du formulaire ville City
+        $city = new City();
+        $cityForm = $this->createForm(CityType::class, $city);
+        $cityForm ->handleRequest($request);
+
+        //Récupère les villes de la table City
+        $citiesRepository = $this->getDoctrine()->getRepository(City::class);
+        $cities = $citiesRepository->findAll();
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
@@ -100,14 +113,21 @@ class ExcursionController extends AbstractController
             $excursion->setState($stateInitial);
 
             $em = $this->getDoctrine()->getManager();
+
+            //hydrate les champs de la table excursion
             $em->persist($excursion);
+            //hydrate les champs de la table ville
+            $em->persist($city);
+
             $em->flush();
 
             return $this->redirectToRoute('index');
         }
 
         return $this->render("excursion/create.html.twig",[
-            'excursionForm' => $excursionForm->createView()
+            'excursionForm' => $excursionForm->createView(),
+            'cityForm' => $cityForm->createView(),
+            'cities'=> $cities
         ]);
     }
 

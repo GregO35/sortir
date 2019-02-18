@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\City;
 use App\Entity\Excursion;
+use App\Entity\Place;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,6 +37,27 @@ class ExcursionType extends AbstractType
                 'label' => 'Durée de la sortie (en minutes)'
             ])
             ->add('urlPicture')
+
+            ->add('name', EntityType::class, [
+                'label'=>"Ville",
+                'multiple' => true,
+                'expanded' => false,
+                'class' => City::class
+            ])
+            ->add('name', EntityType::class, [
+                'label'=>"Lieu",
+                'multiple' => true,
+                'expanded' => false,
+                'class' => Place::class
+            ])
+            ->add('latitude', TextType::class,[
+                'label' => 'Latitude',
+                'class'=> Place::class
+            ])
+            ->add('longitude', TextType::class,[
+                'label' => 'Longitude',
+                'class'=> Place::class
+            ])
         ;
     }
 

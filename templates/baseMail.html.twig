@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="UTF-8">
+
+        <title>{% block title %}Sortir.com{% endblock %}</title>
+
+        <link rel="stylesheet" href="{{ asset ('css/bootstrap.css') }}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans">
+        <link rel="stylesheet" href="{{ asset ('css/app.css')}}">
+
+    </head>
+    <body>
+
+        <div class="container">
+
+            <main>
+                {% block content %}{% endblock %}
+            </main>
+
+        </div>
+
+        <script src="{{ asset('js/jquery.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+
+    </body>
+</html>

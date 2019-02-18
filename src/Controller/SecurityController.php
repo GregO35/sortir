@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
+use App\Util\Util;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +76,8 @@ class SecurityController extends AbstractController
 
             if($user != null)
             {
-                $resetPassword = randomString();
+                $util = new Util();
+                $resetPassword = $util->randomString();
                 $message = (new \Swift_Message('Hello Email'))
                     ->setFrom('send@example.com')
                     ->setTo('recipient@example.com')

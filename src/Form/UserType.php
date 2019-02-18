@@ -36,14 +36,7 @@ class UserType extends AbstractType
                 'second_options' => ['label'=>"Confirmation :"],
              ])
             ->add('photo_file', FileType::class, ['data_class' => null,'required' => false, 'label'=> 'Ma photo :'])
-        ;
 
-//            ->add('nom_site', EntityType::class, [
-//                'label'=>"Ville de rattachement",
-//                'multiple' => true,
-//                'expanded' => false,
-//                'class' => Sites::class,
-//            ])
 
 /*          ->add('administrator')
             ->add('roles')

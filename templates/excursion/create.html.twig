@@ -20,6 +20,12 @@
         {{ form_row(excursionForm.registrationNumberMax) }}
         {{ form_row(excursionForm.description) }}
         {{ form_row(excursionForm.duration) }}
+        <div>
+            <label></label>
+            <p>{{ site.name }}</p>
+        </div>
+        {{ form_row(excursionForm.city.name) }}
+
         {{ form_row(excursionForm.urlPicture) }}
 
         <button class="btn btn-success">Envoyer !</button>

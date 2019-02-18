@@ -50,6 +50,16 @@ footer
     margin: 20px;
 }
 
+#forget-password
+{
+    margin-top: 250px;
+}
+
+#mail
+{
+    margin-bottom: 10px;
+}
+
 .search_excursion
 {
     margin: 10px 0px;

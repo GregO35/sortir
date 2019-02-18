@@ -59,4 +59,41 @@ class SecurityController extends AbstractController
      *@Route("/logout", name="app_logout")
      */
     public function logout(){}
+
+    /**
+     * @Route(
+     *     "/mot-de-passe-oublié",
+     *     name="app_recovery_password"
+     *     )
+     */
+    public function forgetPassword(\Swift_Mailer $mailer)
+    {
+        if($_POST)
+        {
+            $userRepository = $this->getDoctrine()->getRepository(User::class);
+            $user = $userRepository->findOneBy( [ "mail" => $_POST["mail"] ] );
+
+            if($user != null)
+            {
+                $resetPassword = randomString();
+                $message = (new \Swift_Message('Hello Email'))
+                    ->setFrom('send@example.com')
+                    ->setTo('recipient@example.com')
+                    ->setBody(
+                        $this->renderView(
+                        // templates/emails/registration.html.twig
+                            'emails/forgetPassword.html.twig',[
+                                'name' => $user->getUsername(),
+                                'resetCode' => $resetPassword
+                            ]),
+                        'text/html'
+                    );
+                $mailer->send($message);
+                return $this->redirectToRoute("app_login");
+            }
+
+        }
+
+        return $this->render("security/forgetPassword.html.twig");
+    }
 }

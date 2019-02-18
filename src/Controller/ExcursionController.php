@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\City;
+use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\State;
 use App\Entity\Excursion;
@@ -93,6 +94,12 @@ class ExcursionController extends AbstractController
         $excursionForm = $this->createForm(ExcursionType::class, $excursion);
         $excursionForm->handleRequest($request);
 
+        //Récupère la ville organisatrice
+        $siteRepository=$this->getDoctrine()->getRepository(Site::class);
+        $id= $this->getUser()->getSite();
+        $site_id= $siteRepository->find($id);
+        $site=$site_id->getName();
+
         //Formulaire du formulaire ville City
         $city = new City();
         $cityForm = $this->createForm(CityType::class, $city);
@@ -129,7 +136,8 @@ class ExcursionController extends AbstractController
         return $this->render("excursion/create.html.twig",[
             'excursionForm' => $excursionForm->createView(),
             'cityForm' => $cityForm->createView(),
-            'user'=>$user
+            'user'=>$user,
+            'site'=>$site
         ]);
     }
 
@@ -317,6 +325,12 @@ class ExcursionController extends AbstractController
 
         $excursion= $excursionRepository->find($id);
 
+        //récupère la ville organisatrice de l'organisateur
+        $siteRepository=$this->getDoctrine()->getRepository(Site::class);
+        $id= $this->getUser()->getSite();
+        $site_id= $siteRepository->find($id);
+        $site=$site_id->getName();
+
         //récupère les participants de l'excursion
         $participantsRepository= $this->getDoctrine()->getRepository(User::class);
 
@@ -324,6 +338,7 @@ class ExcursionController extends AbstractController
 
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,
+            'site'=>$site,
             'participants'=>$participants
         ]);
     }

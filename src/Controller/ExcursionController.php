@@ -81,6 +81,8 @@ class ExcursionController extends AbstractController
      */
     public function addExcursion(Request $request)
     {
+        $user = $this->getUser();
+
         //Création du formulaire d'excursion
         $excursion = new Excursion();
 
@@ -127,7 +129,7 @@ class ExcursionController extends AbstractController
         return $this->render("excursion/create.html.twig",[
             'excursionForm' => $excursionForm->createView(),
             'cityForm' => $cityForm->createView(),
-            'cities'=> $cities
+            'user'=>$user
         ]);
     }
 

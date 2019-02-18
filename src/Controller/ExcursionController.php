@@ -93,6 +93,9 @@ class ExcursionController extends AbstractController
             $stateInitial = $stateRepository->find(5);
 
             $excursion->setOrganizer($this->getUser());
+            //Rajoute l'organisateur en tant que participant à l'excursion
+            $this->getUser()->addExcursion($excursion);
+
             $excursion->setState($stateInitial);
 
             $em = $this->getDoctrine()->getManager();
@@ -293,8 +296,8 @@ class ExcursionController extends AbstractController
 
         //récupère les participants de l'excursion
         $participantsRepository= $this->getDoctrine()->getRepository(User::class);
-        $participants= $participantsRepository->findParticipants($id);
 
+        $participants= $participantsRepository->findParticipants($id);
 
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,

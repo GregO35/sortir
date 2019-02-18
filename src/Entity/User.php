@@ -121,6 +121,11 @@ class User implements UserInterface
      */
     private $site;
 
+    /**
+     * @ORM\Column(type="string", length=40, nullable=true)
+     */
+    private $resetPassword;
+
 
     public function __construct()
     {
@@ -322,6 +327,18 @@ class User implements UserInterface
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    public function getResetPassword(): ?string
+    {
+        return $this->resetPassword;
+    }
+
+    public function setResetPassword(?string $resetPassword): self
+    {
+        $this->resetPassword = $resetPassword;
 
         return $this;
     }

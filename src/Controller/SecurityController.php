@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\NewPasswordType;
 use App\Form\RegisterType;
 use App\Util\Util;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -16,7 +17,10 @@ class SecurityController extends AbstractController
 {
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route(
+     *     "/register",
+     *     name="app_register"
+     * )
      */
     public function register(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
@@ -44,7 +48,11 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="app_login", methods={"GET","POST"})
+     * @Route(
+     *     "/login",
+     *     name="app_login",
+     *     methods={"GET","POST"}
+     *     )
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -91,11 +99,40 @@ class SecurityController extends AbstractController
                         'text/html'
                     );
                 $mailer->send($message);
+
+                $user->setResetPassword($resetPassword);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
                 return $this->redirectToRoute("app_login");
             }
 
         }
 
         return $this->render("security/forgetPassword.html.twig");
+    }
+
+    /**
+     * @Route(
+     *     "/nouveau-mot-de-passe/{id}",
+     *     name="app_new_password",
+     *     requirements={"id":"\d+"}
+     * )
+     */
+    public function newPassword(Request $request)
+    {
+        $user =new User();
+        $form = $this->createForm( NewPasswordType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+
+        }
+
+        return $this->render("security/newPassword.html.twig",[
+           "formPassword" => $form->createView()
+        ]);
     }
 }

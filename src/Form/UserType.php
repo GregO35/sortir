@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\User;
 use App\Repository\UserRepository;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -26,6 +28,7 @@ class UserType extends AbstractType
             ->add('name', TextType::class,  ['label'=>"Nom :"])
             ->add('phone', TextType::class, ['label'=>"Téléphone :"])
             ->add('mail', TextType::class, ['label'=>"Email :"])
+
             //Affiche 2 champs pour le mot de passe et la confirmation; compare les 2 et valide ou non
             ->add('password', RepeatedType::class,[
                 'type'=>PasswordType::class,

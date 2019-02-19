@@ -96,8 +96,8 @@ class ExcursionController extends AbstractController
 
         //Récupère la ville organisatrice
         $siteRepository=$this->getDoctrine()->getRepository(Site::class);
-        $id= $this->getUser()->getSite();
-        $site_id= $siteRepository->find($id);
+        $numid= $this->getUser()->getSite();
+        $site_id= $siteRepository->find($numid);
         $site=$site_id->getName();
 
         //Formulaire du formulaire ville City
@@ -330,6 +330,7 @@ class ExcursionController extends AbstractController
         $id= $this->getUser()->getSite();
         $site_id= $siteRepository->find($id);
         $site=$site_id->getName();
+
 
         //récupère les participants de l'excursion
         $participantsRepository= $this->getDoctrine()->getRepository(User::class);

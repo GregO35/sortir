@@ -42,44 +42,26 @@
         <div class="col-sm"><h5>{{ site }}</h5></div>
     </div>
     <div class="row">
-        <div class="col-sm">Ville : </div>
-        <div class="col-sm">
-            <select name="Ville">
-                {% for city in cities %}
-                    <option value="{{ city.name }}">{{ city.name }}</option>
-                {% endfor %}
-            </select></div>
-    </div>
-    <div class="row">
         <div class="col-sm">Lieu :</div>
-        <div class="col-sm">
-            <select name="Lieu">
-                {% for place in places %}
-                    <option value="{{ place.name }}">{{ place.name }}</option>
-                {% endfor %}
-            </select></div>
+        <div class="col-sm"><h5>
+            {% if place != null %} {{ place.name }} {% endif %}</h5></div>
     </div>
     <div class="row">
         <div class="col-sm">Rue :</div>
         <div class="col-sm">
-            <h5>
-            <script>
-
-
-            </script>
-            </h5></div>
+            <h5>{% if place != null %} {{ place.street }} {% endif %}</h5></div>
     </div>
     <div class="row">
         <div class="col-sm">Code Postal :</div>
-        <div class="col-sm"><h5>{#{city.zip}#}</h5></div>
+        <div class="col-sm"><h5>{% if city != null %} {{ city.zip }} {% endif %}</h5></div>
     </div>
     <div class="row">
         <div class="col-sm">Latitude :</div>
-        <div class="col-sm"><h5>{#{place.latitude}#}</h5></div>
+        <div class="col-sm"><h5><h5>{% if place != null %} {{ place.latitude }} {% endif %}</h5></div>
     </div>
     <div class="row">
         <div class="col-sm">Longitude :</div>
-        <div class="col-sm"><h5>{#{place.longitude}#}</h5></div>
+        <div class="col-sm"><h5><h5>{% if place != null %} {{ place.longitude }} {% endif %}</h5></div>
     </div>
 </div>
 <br>

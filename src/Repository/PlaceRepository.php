@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Place;
+use App\Entity\Excursion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -18,6 +19,8 @@ class PlaceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Place::class);
     }
+
+
 
     // /**
     //  * @return Place[] Returns an array of Place objects

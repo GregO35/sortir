@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Place;
 use App\Entity\Excursion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -93,4 +94,34 @@ class ExcursionRepository extends ServiceEntityRepository
 
         return $excursions;
     }
+
+    public function findPlace($id){
+
+        $qb =  $this->createQueryBuilder('e');
+        $qb ->join('e.place','p')
+            ->andWhere('p.id=:id')
+            ->setParameter('id',$id)
+        ;
+
+        $query = $qb->getQuery();
+        $place =$query->getResult();
+
+        return $place;
+    }
+
+    public function findCity($id){
+
+        $qb =  $this->createQueryBuilder('e');
+        $qb ->join('e.place','p')
+            ->join('p.city', 'c')
+            ->andWhere('c.id=:id')
+            ->setParameter('id',$id)
+        ;
+
+        $query = $qb->getQuery();
+        $city =$query->getResult();
+
+        return $city;
+    }
+
 }

@@ -37,22 +37,6 @@ class ExcursionType extends AbstractType
                 'label' => 'Durée de la sortie (en minutes)'
             ])
             ->add('urlPicture')
-/*
-            ->add('name', EntityType::class, [
-                'label'=>"Lieu",
-                'multiple' => false,
-                'expanded' => true,
-                'class' => Place::class
-            ])
-            ->add('latitude', TextType::class,[
-                'label' => 'Latitude',
-                'class'=> Place::class
-            ])
-            ->add('longitude', TextType::class,[
-                'label' => 'Longitude',
-                'class'=> Place::class
-            ])
-*/
         ;
     }
 

@@ -2,30 +2,43 @@
 
 namespace App\Form;
 
-use App\Entity\Site;
+use App\Entity\Place;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SiteType extends AbstractType
+class PlaceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', EntityType::class, [
-                'label'=>"Ville :",
+                'label'=>"Lieu",
                 'multiple' => false,
-                'expanded' => false,
-                'class' => Site::class
+                'expanded' => true,
+                'class' => Place::class
             ])
+
+            ->add('latitude', TextType::class,[
+                'label' => 'Latitude'
+            ])
+            ->add('longitude', TextType::class,[
+                'label' => 'Longitude'
+            ])
+            /*
+            ->add('city')
+            ->add('street')
+            */
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Site::class,
+            'data_class' => Place::class,
         ]);
     }
 }

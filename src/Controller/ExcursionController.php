@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\City;
+use App\Entity\Place;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\State;
 use App\Entity\Excursion;
 use App\Form\CityType;
 use App\Form\ExcursionType;
+use App\Form\PlaceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -100,7 +102,7 @@ class ExcursionController extends AbstractController
         $site_id= $siteRepository->find($numid);
         $site=$site_id->getName();
 
-        //Formulaire du formulaire ville City
+        //Formulaire ville City
         $city = new City();
         $cityForm = $this->createForm(CityType::class, $city);
         $cityForm ->handleRequest($request);
@@ -108,6 +110,16 @@ class ExcursionController extends AbstractController
         //Récupère les villes de la table City
         $citiesRepository = $this->getDoctrine()->getRepository(City::class);
         $cities = $citiesRepository->findAll();
+
+        //Gère le formulaire des lieux Place
+        $place = new Place();
+        $placeForm=$this->createForm(PlaceType::class,$place);
+        $placeForm->handleRequest($request);
+
+        //Récupère les lieux de la table Place
+        $placesRepository=$this->getDoctrine()->getRepository(Place::class);
+        $places = $placesRepository->findAll();
+
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
@@ -127,6 +139,8 @@ class ExcursionController extends AbstractController
             $em->persist($excursion);
             //hydrate les champs de la table ville
             $em->persist($city);
+            //hydrate les champs de la table ville
+            $em->persist($place);
 
             $em->flush();
 
@@ -136,8 +150,11 @@ class ExcursionController extends AbstractController
         return $this->render("excursion/create.html.twig",[
             'excursionForm' => $excursionForm->createView(),
             'cityForm' => $cityForm->createView(),
+            'placeForm'=>$placeForm->createView(),
             'user'=>$user,
-            'site'=>$site
+            'site'=>$site,
+            'cities'=>$cities,
+            'places'=>$places
         ]);
     }
 
@@ -331,6 +348,13 @@ class ExcursionController extends AbstractController
         $site_id= $siteRepository->find($id);
         $site=$site_id->getName();
 
+        //récupère les villes dans la base pour la liste déroulante
+        $cityRepository=$this->getDoctrine()->getRepository(City::class);
+        $cities= $cityRepository->findAll();
+
+        //récupère les lieux dans la base pour la liste déroulante
+        $placeRepository=$this->getDoctrine()->getRepository(Place::class);
+        $places= $placeRepository->findAll();
 
         //récupère les participants de l'excursion
         $participantsRepository= $this->getDoctrine()->getRepository(User::class);
@@ -340,6 +364,8 @@ class ExcursionController extends AbstractController
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,
             'site'=>$site,
+            'cities'=>$cities,
+            'places'=>$places,
             'participants'=>$participants
         ]);
     }

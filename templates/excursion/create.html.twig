@@ -31,10 +31,23 @@
 
 
         {#Choix de la ville de la sortie dans liste déroulante#}
-        {{ form_row(cityForm.name) }}
+        {{ form_row(cityForm.name, {
+            'attr': {
+                'id': 'Ville'
+            }}) }}
 
-        {#Choix du lieu de la sortie parmi celles de la ville en question
-        {{ form_row(excursionForm.place.name) }}
+        {#Choix du lieu de la sortie parmi celles de la ville en question#}
+
+        <div class="row">
+            <div class="col-sm">Lieu :</div>
+            <div class="col-sm">
+                <select name="Lieu">
+                    <ul id="listeLieu">
+
+                    </ul>
+
+                </select></div>
+        </div>
 
         {# Récupère et affiche la rue du lieu choisi
         <div>
@@ -46,10 +59,10 @@
         <div>
             <label>Code postal :</label>
             <p>{{ city.zip }}</p>
-        </div>
+        </div>#}
 
-        {{ form_row(excursionForm.latitude) }}
-        {{ form_row(excursionForm.longitude) }}#}
+        {{ form_row(placeForm.latitude) }}
+        {{ form_row(placeForm.longitude) }}
 
         {{ form_row(excursionForm.urlPicture) }}
 

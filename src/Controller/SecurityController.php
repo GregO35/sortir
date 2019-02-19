@@ -43,7 +43,7 @@ class SecurityController extends AbstractController
             $user->setPassword($encoder->encodePassword($user,$user->getPassword()));
 
             //cherche l'objet site qui porte le nom de $_POST('site')
-             $siteRepository=$this->getDoctrine()->getRepository(Site::class);
+            $siteRepository=$this->getDoctrine()->getRepository(Site::class);
 
             $id_user = $siteRepository->findOneBy(['name'=>$_POST{'site'}]);
             $user->setSite($id_user);

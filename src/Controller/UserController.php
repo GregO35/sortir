@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Excursion;
+use App\Entity\State;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +27,7 @@ class UserController extends AbstractController
     {
             $user = $this->getUser();
             //dd($user);
+            //dd($user->getPhotoFile());
 
             //Création du formulaire
             $userForm = $this->createForm(UserType::class, $user);
@@ -35,7 +38,6 @@ class UserController extends AbstractController
 
 
             if ($userForm->isSubmitted() && $userForm->isValid()) {
-
 
 
                         //Encode le password tapé par l'utilisateur
@@ -51,6 +53,8 @@ class UserController extends AbstractController
                     /**@var Symfony\Component\HttpFoundation\File\UploadedFile $file */
 
                     $file = $userForm->get('photo_file')->getData();
+
+
 
                     if($file !== null) {
 
@@ -122,5 +126,93 @@ class UserController extends AbstractController
            return $this->render("user/detail.html.twig",[
                "user" => $user
            ]);
+    }
+
+    /**
+     * @Route(
+     *     "sortir/admin/liste-utilisateur",
+     *     name="user_list"
+     * )
+     */
+    public function displayUsers()
+    {
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $users = $userRepository->findAll();
+
+        return $this->render("user/list.html.twig",[
+           "users" => $users
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "sortir/admin/désactiver/{id}",
+     *     name="user_desactivate",
+     *     requirements={"id":"\d+"}
+     * )
+     */
+    public function desactivate($id)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->find($id);
+        $user->setActif(false);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute("user_list");
+    }
+
+    /**
+     * @Route(
+     *     "sortir/admin/activer/{id}",
+     *     name="user_activate",
+     *     requirements={"id":"\d+"}
+     * )
+     */
+    public function activate($id)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->find($id);
+        $user->setActif(true);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute("user_list");
+    }
+
+    /**
+     * @Route(
+     *     "sortir/admin/supprimer/{id}",
+     *     name="user_erase",
+     *     requirements={"id":"\d+"}
+     * )
+     */
+    public function eraseUser($id)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $stateRepository = $this->getDoctrine()->getRepository(State::class);
+        $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+
+        $stateCancel = $stateRepository->find(2);
+        $cancelMessage = "Utilisateur Supprimé";
+        $user = $userRepository->find($id);
+        $registered = $excursionRepository->findByRegistered($user);
+        dd($registered);
+
+        foreach ($user->getExcursions() as $excursion) {
+            if ($excursion->getState()->getLibelle() == "Ouvert" || $excursion->getState()->getLibelle() == "Complet")
+            {
+                $excursion->setState($stateCancel);
+                $excursion->setCancelMessage($cancelMessage);
+            }
+            elseif ($excursion->getState()->getLibelle() == "En création")
+            {
+                $user->removeExcursion($excursion);
+            }
+        }
     }
 }

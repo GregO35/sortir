@@ -29,6 +29,18 @@ class ExcursionRepository extends ServiceEntityRepository
         $query->execute();
     }
 
+    public function findByRegistered(User $user)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->leftJoin('e.RegisterExcursion', 'u')
+            ->addSelect('u')
+            ->where('u.id = :id');
+        $qb->setParameter('id',$user->getId());
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     public function findAllByFilters($site, $name, $startDate, $endDate,
                  $organizer, $register, $notRegister, $passedExcursion, User $user)
     {

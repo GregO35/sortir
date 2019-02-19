@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
+use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\State;
 use App\Entity\Excursion;
+use App\Form\CityType;
 use App\Form\ExcursionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,11 +76,15 @@ class ExcursionController extends AbstractController
     /**
      * @Route(
      *     "/sortir/sortie/creer",
-     *     name="excursion_add"
+     *     name="excursion_add",
+     *     methods={"GET","POST"}
      *     )
      */
     public function addExcursion(Request $request)
     {
+        $user = $this->getUser();
+
+        //Création du formulaire d'excursion
         $excursion = new Excursion();
 
         $dateTime = date_create();
@@ -86,6 +93,21 @@ class ExcursionController extends AbstractController
 
         $excursionForm = $this->createForm(ExcursionType::class, $excursion);
         $excursionForm->handleRequest($request);
+
+        //Récupère la ville organisatrice
+        $siteRepository=$this->getDoctrine()->getRepository(Site::class);
+        $numid= $this->getUser()->getSite();
+        $site_id= $siteRepository->find($numid);
+        $site=$site_id->getName();
+
+        //Formulaire du formulaire ville City
+        $city = new City();
+        $cityForm = $this->createForm(CityType::class, $city);
+        $cityForm ->handleRequest($request);
+
+        //Récupère les villes de la table City
+        $citiesRepository = $this->getDoctrine()->getRepository(City::class);
+        $cities = $citiesRepository->findAll();
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
@@ -100,14 +122,22 @@ class ExcursionController extends AbstractController
             $excursion->setState($stateInitial);
 
             $em = $this->getDoctrine()->getManager();
+
+            //hydrate les champs de la table excursion
             $em->persist($excursion);
+            //hydrate les champs de la table ville
+            $em->persist($city);
+
             $em->flush();
 
             return $this->redirectToRoute('index');
         }
 
         return $this->render("excursion/create.html.twig",[
-            'excursionForm' => $excursionForm->createView()
+            'excursionForm' => $excursionForm->createView(),
+            'cityForm' => $cityForm->createView(),
+            'user'=>$user,
+            'site'=>$site
         ]);
     }
 
@@ -295,6 +325,13 @@ class ExcursionController extends AbstractController
 
         $excursion= $excursionRepository->find($id);
 
+        //récupère la ville organisatrice de l'organisateur
+        $siteRepository=$this->getDoctrine()->getRepository(Site::class);
+        $id= $this->getUser()->getSite();
+        $site_id= $siteRepository->find($id);
+        $site=$site_id->getName();
+
+
         //récupère les participants de l'excursion
         $participantsRepository= $this->getDoctrine()->getRepository(User::class);
 
@@ -302,6 +339,7 @@ class ExcursionController extends AbstractController
 
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,
+            'site'=>$site,
             'participants'=>$participants
         ]);
     }

@@ -20,11 +20,36 @@
         {{ form_row(excursionForm.registrationNumberMax) }}
         {{ form_row(excursionForm.description) }}
         {{ form_row(excursionForm.duration) }}
+
+        {# Récupère la ville organisatrice (celle à laquelle est rattachée l'organisateur)#}
         <div>
-            <label></label>
-            <p>{{ site.name }}</p>
+            <label>Ville organisatrice :</label>
+
+            <p>{{ site }}</p>
+
         </div>
-        {{ form_row(excursionForm.city.name) }}
+
+
+        {#Choix de la ville de la sortie dans liste déroulante#}
+        {{ form_row(cityForm.name) }}
+
+        {#Choix du lieu de la sortie parmi celles de la ville en question
+        {{ form_row(excursionForm.place.name) }}
+
+        {# Récupère et affiche la rue du lieu choisi
+        <div>
+            <label>Rue :</label>
+            <p>{{ place.street }}</p>
+        </div>
+
+        {#Récupère et affiche le code postal de la ville
+        <div>
+            <label>Code postal :</label>
+            <p>{{ city.zip }}</p>
+        </div>
+
+        {{ form_row(excursionForm.latitude) }}
+        {{ form_row(excursionForm.longitude) }}#}
 
         {{ form_row(excursionForm.urlPicture) }}
 

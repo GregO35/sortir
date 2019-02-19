@@ -10,9 +10,16 @@
             'novalidate': 'novalidate'
         }})
     }}
+    <div>
+        <label>Site :</label>
+        <select name="site">
+            {% for site in sites %}
+                <option value="{{ site.name }}">{{ site.name }}</option>
+            {% endfor %}
+        </select>
 
+    </div><br>
     {{ form_widget(registrationForm) }}
-
     <button class="btn btn-success">Envoyer !</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

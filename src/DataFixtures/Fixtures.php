@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Excursion;
+use App\Entity\Site;
 use App\Entity\State;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,9 +79,14 @@ class Fixtures extends Command
         }
         $this->em->flush();
 
+        //Insère l'utilisateur Test1 dans la base
         $io->progressStart(40);
 
         $roles = ["admin","user"];
+        $site = new Site();
+        $site->setName("NANTES");
+        $this->em->persist($site);
+
         $users = [];
 
         $user = new User();
@@ -92,6 +98,7 @@ class Fixtures extends Command
         $user->setName("Dufour");
         $user->setPhone("0652358417");
         $user->setActif(true);
+        $user->setSite($site);
         $user->setAdministrator(false);
 
         $this->em->persist($user);
@@ -110,6 +117,7 @@ class Fixtures extends Command
             $user->setName($faker->name);
             $user->setPhone($faker->numerify("02########"));
             $user->setActif(true);
+            $user->setSite($site);
             $user->setAdministrator(false);
 
             $this->em->persist($user);

@@ -26,15 +26,12 @@ class UserController extends AbstractController
     public function manage(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
             $user = $this->getUser();
-            //dd($user);
-            //dd($user->getPhotoFile());
 
             //Création du formulaire
             $userForm = $this->createForm(UserType::class, $user);
 
             //enregistre le formulaire dans la BDD
             $userForm->handleRequest($request);
-
 
 
             if ($userForm->isSubmitted() && $userForm->isValid()) {
@@ -85,7 +82,7 @@ class UserController extends AbstractController
 
                     //Créer un message flash à afficher sur la prochaine page
                     $this->addFlash('success', "Vous avez modifié votre profil avec succès");
-                    //dd($user);
+
                     //redirige vers la page de login
                     return $this->redirectToRoute('index');
                     }
@@ -96,8 +93,8 @@ class UserController extends AbstractController
         //Affiche le formulaire et les infos venant de la BDD
         return $this->render('user/gestion_profil.html.twig', [
             "userForm" => $userForm->createView(),
-            "user"=>$user
-        ]);
+            "user"=>$user,
+         ]);
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Site;
 use App\Entity\User;
 use App\Form\NewPasswordType;
 use App\Form\RegisterType;
+use App\Form\SiteType;
 use App\Util\Util;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,9 +26,14 @@ class SecurityController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
+        //Gère le formulaire de User
         $user = new User();
         $form = $this->createForm( RegisterType::class, $user);
         $form->handleRequest($request);
+
+        //Récupère les sites existants en BDD
+        $siteRepository=$this->getDoctrine()->getRepository(Site::class);
+        $sites= $siteRepository->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -35,15 +42,23 @@ class SecurityController extends AbstractController
             $user->setRoles(["user"]);
             $user->setPassword($encoder->encodePassword($user,$user->getPassword()));
 
+            //cherche l'objet site qui porte le nom de $_POST('site')
+             $siteRepository=$this->getDoctrine()->getRepository(Site::class);
+
+            $id_user = $siteRepository->findOneBy(['name'=>$_POST{'site'}]);
+            $user->setSite($id_user);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
+
             $entityManager->flush();
 
             return $this->redirectToRoute("app_login");
         }
 
         return $this->render('security/register.html.twig', [
-            'registrationForm' => $form->createView()
+            'registrationForm' => $form->createView(),
+            'sites'=>$sites
         ]);
     }
 

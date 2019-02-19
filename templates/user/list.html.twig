@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des utilisateur{% endblock %}
+
+{% block content %}
+
+    <table class="table table-striped">
+
+        <tr class="text-center">
+            <th>Pseudo</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>téléphone</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+
+        {% for user in users %}
+
+            {% if app.user.username != user.username %}
+
+            <tr class="text-center">
+                <td>{{ user.username }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.mail }}</td>
+                <td>
+                    {% if user.actif %}
+                        <a href="{{ path('user_desactivate',{"id": user.id}) }}">Désactiver</a>
+                    {% else %}
+                        <a href="{{ path('user_activate',{"id": user.id}) }}">activer</a>
+                    {% endif %}
+                    <a href="{{ path('user_erase',{"id": user.id}) }}">Supprimer</a>
+                </td>
+            </tr>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </table>
+
+{% endblock %}

@@ -117,7 +117,7 @@
                             {% else %}
                                 <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
                             {% endif %}
-                        {% elseif app.user.username == excursion.organizer.username %}
+                        {% elseif app.user.username == excursion.organizer.username or app.user.roles[0] == "admin" %}
                             <a href="{{ path('excursion_modif',{'id': excursion.id}) }}">Modifier -</a>
                         {% endif %}
                     {% endif %}

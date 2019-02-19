@@ -68,7 +68,11 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Username could not be found.');
+            throw new CustomUserMessageAuthenticationException("Le mot de passe ou le pseudo ne sont pas valide!");
+        }
+        elseif(!$user->getActif())
+        {
+            throw new CustomUserMessageAuthenticationException("Votre compte n'est plus actif!");
         }
 
         return $user;

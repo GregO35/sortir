@@ -19,6 +19,15 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function remove($id){
+        $dql = "DELETE App\Entity\User u
+                WHERE u.id = :id";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter(':id', $id);
+        $query->execute();
+    }
+
     public function findParticipants($id){
 
         $qb =  $this->createQueryBuilder('u');

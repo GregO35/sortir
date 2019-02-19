@@ -132,22 +132,33 @@ class SecurityController extends AbstractController
      * @Route(
      *     "/nouveau-mot-de-passe/{id}",
      *     name="app_new_password",
-     *     requirements={"id":"\d+"}
+     *     requirements={"id":"[a-z0-9]+"}
      * )
      */
-    public function newPassword(Request $request)
+    public function newPassword($id, Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $user =new User();
-        $form = $this->createForm( NewPasswordType::class, $user);
-        $form->handleRequest($request);
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->findOneBy(["resetPassword" => $id]);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if($user != null) {
+            $form = $this->createForm(NewPasswordType::class, $user);
+            $form->handleRequest($request);
 
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+                $user->setResetPassword(null);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+            }
+
+            return $this->render("security/newPassword.html.twig", [
+                "formPassword" => $form->createView()
+            ]);
         }
 
-        return $this->render("security/newPassword.html.twig",[
-           "formPassword" => $form->createView()
-        ]);
+        return $this->redirectToRoute("app_login");
     }
 }

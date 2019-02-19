@@ -191,25 +191,26 @@ class UserController extends AbstractController
     public function eraseUser($id)
     {
         $userRepository = $this->getDoctrine()->getRepository(User::class);
-        $stateRepository = $this->getDoctrine()->getRepository(State::class);
         $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $em = $this->getDoctrine()->getManager();
 
-        $stateCancel = $stateRepository->find(2);
-        $cancelMessage = "Utilisateur Supprimé";
         $user = $userRepository->find($id);
         $registered = $excursionRepository->findByRegistered($user);
-        dd($registered);
+        $organized = $excursionRepository->findBy(["organizer"=>$user->getId()]);
 
-        foreach ($user->getExcursions() as $excursion) {
-            if ($excursion->getState()->getLibelle() == "Ouvert" || $excursion->getState()->getLibelle() == "Complet")
-            {
-                $excursion->setState($stateCancel);
-                $excursion->setCancelMessage($cancelMessage);
-            }
-            elseif ($excursion->getState()->getLibelle() == "En création")
-            {
-                $user->removeExcursion($excursion);
-            }
+        foreach ($organized as $excursion) {
+            $excursionRepository->remove($excursion->getId());
         }
+
+        foreach ($registered as $excursion)
+        {
+            $excursion->removeRegisterExcursion($user);
+            $em->persist($excursion);
+        }
+        $em->flush();
+
+        $userRepository->remove($user->getId());
+
+        return $this->redirectToRoute("user_list");
     }
 }

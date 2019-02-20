@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Les sorties du moment !{% endblock %}
+
+{% block content %}
+    <div class="container-fluid table table-responsive">
+
+        <div class="offset-9 col-3">
+            <p><STRONG>Date du jour: {{ "now"|date("d/m/Y") }}</STRONG></p>
+            <p><STRONG>Utilisateur: {{ app.user.username }}</STRONG></p>
+        </div>
+
+        <p>Filtrer les sorties</p>
+
+        <form method="post" action="{{ path('index') }}">
+
+            <div class="row">
+
+                <div class="form-group col-lg-6">
+
+                    <label for="sel1">Site :</label>
+                    <select class="form-control" id="sel1" name="sell">
+                        <option>Saint-Herblain</option>
+                        <option>Chartres de Bretagne</option>
+                        <option>Niort</option>
+                        <option>La Roche sur Yon</option>
+                    </select>
+
+                    <div class="search_excursion">
+                        <label>Le nom de la sortie contient:</label>
+                        <input type="search" name="name">
+                    </div>
+
+                    <div>
+                        <label>Débute aprés le</label>
+                        <input type="datetime-local" name="date_start">
+                    </div>
+                    <div>
+                        <label>Débute avant le</label>
+                        <input type="datetime-local" name="date_end">
+                    </div>
+
+                </div>
+
+                <div class="col-lg-4 checkbox-excursion">
+
+                    <div class="checkbox">
+                        <input type="checkbox" name="organizer"> <label> Sorties dont je suis l'organisateur/trice</label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input type="checkbox" name="register"> <label> Sorties auxquelles je suis inscrit/e</label>
+                    </div>
+
+                    <div class="checkbox ">
+                        <input type="checkbox" name="not_register"> <label> Sorties auxquelles je ne suis pas inscrit/e</label>
+                    </div>
+
+                    <div class="checkbox ">
+                        <input type="checkbox" name="passed_excursion"> <label> Sorties passées</label>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 button-excursion">
+                    <button class="btn btn-lg btn-primary float-left" type="submit">Rechercher</button>
+                </div>
+
+            </div>
+
+        </form>
+
+
+<br>
+
+        <a href="{{ path('excursion_add') }}" class="btn btn-primary float-right">Ajouter une sortie</a>
+
+        <table class="table table-striped">
+
+
+
+            <tr class="text-center">
+                <th class="">Nom</th>
+                <th class="">Date</th>
+                <th class="">Clôture</th>
+                <th class="">inscrits / places</th>
+                <th class="">Etat</th>
+                <th class="">Organisateur</th>
+                <th class="">Action</th>
+            </tr>
+
+            {% for excursion in excursions %}
+            {% if excursion.endDate|date("U") > "-2592000second"|date('U') %}
+            <tr class="text-center">
+                <td class="">{{ excursion.name }}</td>
+                <td class="">{{ excursion.startDate | date ('d-m-Y') }}</td>
+                <td class="">{{ excursion.endDate | date ('d-m-Y')}}</td>
+                <td class="">{{ excursion.registerExcursion.count }} / {{ excursion.registrationNumberMax }}</td>
+                <td class="">{{ excursion.state.libelle }}</td>
+
+                <td class=""><a href="{{ path("user_detail",{'id': excursion.organizer.id}) }}">
+                        {{ excursion.organizer.name }}</a></td>
+
+                <td class="">
+
+                    {% set registerUser = false %}
+                    {% for user in excursion.RegisterExcursion %}
+                        {% if user.id == app.user.id %}
+                            {% set registerUser = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if excursion.endDate|date("U") > "now"|date("U") %}
+                        {% if app.user.username != excursion.organizer.username and excursion.state.libelle == "Ouvert" %}
+                            {% if not registerUser %}
+                                <a href="{{ path('excursion_register',{'id': excursion.id}) }}">S'inscrire -</a>
+                            {% else %}
+                                <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
+                            {% endif %}
+                        {% elseif app.user.username == excursion.organizer.username or app.user.roles[0] == "admin" %}
+                            <a href="{{ path('excursion_modif',{'id': excursion.id}) }}">Modifier -</a>
+                        {% endif %}
+                    {% endif %}
+                    <a href="{{ path('excursion_details', {'id': excursion.id}) }}">Afficher</a>
+
+                </td>
+                {% endif %}
+            </tr>
+
+            {% endfor %}
+
+
+        </table>
+    </div>
+
+
+{% endblock %}

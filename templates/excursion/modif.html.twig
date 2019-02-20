@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajout excursion{% endblock %}
+
+{% block content %}
+
+    <h1>Modifier votre sortie</h1>
+
+    <div class="container">
+
+        {{ form_start(excursionForm, {
+            'attr': {
+                'novalidate': 'novalidate'
+            }})
+        }}
+
+        {{ form_row(excursionForm.name) }}
+        {{ form_row(excursionForm.startDate) }}
+        {{ form_row(excursionForm.endDate) }}
+        {{ form_row(excursionForm.registrationNumberMax) }}
+        {{ form_row(excursionForm.description) }}
+        {{ form_row(excursionForm.duration) }}
+        {{ form_row(excursionForm.urlPicture) }}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <button class="btn btn-primary">Enregistrer</button>
+                </div>
+
+                {% if excursion.state.libelle == "En création" %}
+                    <div class="col-3">
+                        <a href="{{ path('excursion_publish', {"id": excursion.id}) }}" class="btn btn-primary">Publier la sortie</a>
+                    </div>
+                    <div class="col-3">
+                        <a href="{{ path('excursion_delete', {"id": excursion.id}) }}" class="btn btn-primary">Supprimer la sortie</a>
+                    </div>
+                {% else %}
+                    <div class="col-3">
+                        <a href="{{ path('excursion_cancel', {"id": excursion.id}) }}" class="btn btn-primary">Annuler la sortie</a>
+                    </div>
+                {% endif %}
+                <div class="col-3">
+                    <a href="{{ path('index') }}" class="btn btn-primary">Annuler</a>
+                </div>
+            </div>
+        </div>
+
+        {{ form_end(excursionForm) }}
+
+    </div>
+
+{% endblock %}

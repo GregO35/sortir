@@ -1,0 +1,91 @@
+body {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body .container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+#create-excursion
+{
+
+}
+
+#excursion {
+    -webkit-columns: 300px 2;
+    -moz-columns: 300px 2;
+    columns: 300px 2;
+}
+
+header .site-title {
+    font-size: 32px;
+}
+
+header .site-title a {
+    color: #212529;
+    display: flex;
+    align-items: center;
+}
+
+header .site-title a:hover {
+    text-decoration: none;
+}
+
+header .site-title img {
+    height: 27px;
+    margin-right: 3px;
+}
+
+main {
+    flex-grow: 1;
+}
+label{
+    color: #1b1e21;
+}
+
+footer
+{
+    margin: 20px;
+}
+
+#forget-password
+{
+    margin-top: 250px;
+}
+
+#mail
+{
+    margin-bottom: 10px;
+}
+
+.search_excursion
+{
+    margin: 10px 0px;
+}
+
+.checkbox-excursion
+{
+    margin-top: 50px;
+}
+
+.button-excursion
+{
+    margin-top: 80px;
+}
+
+.user-profil
+{
+    margin: 20px 0;
+}
+
+.font-size-24
+{
+    font-size: 24px;
+}
+
+.photo{
+    height: 200px;
+}
+

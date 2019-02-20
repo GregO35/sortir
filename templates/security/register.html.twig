@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h1>Inscription</h1>
+
+    {{ form_start(registrationForm, {
+        'attr': {
+            'novalidate': 'novalidate'
+        }})
+    }}
+    <div>
+        <label>Site :</label>
+        <select name="site">
+            {% for site in sites %}
+                <option value="{{ site.name }}">{{ site.name }}</option>
+            {% endfor %}
+        </select>
+
+    </div><br>
+    {{ form_widget(registrationForm) }}
+    <button class="btn btn-success">Envoyer !</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

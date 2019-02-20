@@ -1,0 +1,75 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajout excursion{% endblock %}
+
+{% block content %}
+
+    <h1>Ajouter votre sortie</h1>
+
+    <div class="container">
+
+        {{ form_start(excursionForm, {
+            'attr': {
+                'novalidate': 'novalidate'
+            }})
+        }}
+
+        {{ form_row(excursionForm.name) }}
+        {{ form_row(excursionForm.startDate) }}
+        {{ form_row(excursionForm.endDate) }}
+        {{ form_row(excursionForm.registrationNumberMax) }}
+        {{ form_row(excursionForm.description) }}
+        {{ form_row(excursionForm.duration) }}
+
+        {# Récupère la ville organisatrice (celle à laquelle est rattachée l'organisateur)#}
+        <div>
+            <label>Ville organisatrice :</label>
+
+            <p>{{ site }}</p>
+
+        </div>
+
+
+        {#Choix de la ville de la sortie dans liste déroulante#}
+        {{ form_row(cityForm.name, {
+            'attr': {
+                'id': 'Ville'
+            }}) }}
+
+        {#Choix du lieu de la sortie parmi celles de la ville en question#}
+
+        <div class="row">
+            <div class="col-sm">Lieu :</div>
+            <div class="col-sm">
+                <select name="Lieu">
+                    <ul id="listeLieu">
+
+                    </ul>
+
+                </select></div>
+        </div>
+
+        {# Récupère et affiche la rue du lieu choisi
+        <div>
+            <label>Rue :</label>
+            <p>{{ place.street }}</p>
+        </div>
+
+        {#Récupère et affiche le code postal de la ville
+        <div>
+            <label>Code postal :</label>
+            <p>{{ city.zip }}</p>
+        </div>#}
+
+        {{ form_row(placeForm.latitude) }}
+        {{ form_row(placeForm.longitude) }}
+
+        {{ form_row(excursionForm.urlPicture) }}
+
+        <button class="btn btn-success">Envoyer !</button>
+        {{ form_end(excursionForm) }}
+
+    </div>
+
+
+{% endblock %}

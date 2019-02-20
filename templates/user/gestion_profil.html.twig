@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion_profil{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="col-sm-6 offset-sm-3 text-center">
+        <h2 class="h3 mb-3 font-weight-normal">Mon profil</h2>
+    </div>
+
+    <div class="row">
+
+        <div class="col align-center">
+            {% if app.user.photo_file %}
+                <img class="photo" alt="Photo" src="{{ asset('uploads/photoFiles/' ~ app.user.photo_file) }}"/>
+            {% else %}
+                <img class="photo" alt="Photo" src="{{ asset('img/Photo.png') }}">
+            {% endif %}
+        </div>
+        <div class="col">
+            {#Affiche le formulaire de la classe User#}
+            <div>
+                {{ form_start(userForm, {'attr':{'novalidate':'novalidate'}}) }}
+                {{ form_errors(userForm) }}
+                {{ form_widget(userForm)}}
+                {{ form_row(userForm.photo_file) }}
+
+                <br>
+
+                <div>
+                    <button class="btn btn-lg btn-primary float-left" type="submit">Enregistrer</button>
+                    <a href="{{ path('index') }}" class="btn btn-primary float-right">Annuler</a>
+                </div>
+            {{ form_end(userForm) }}
+            </div>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+
+{% endblock %}

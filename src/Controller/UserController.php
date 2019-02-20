@@ -6,6 +6,7 @@ use App\Entity\Excursion;
 use App\Entity\State;
 use App\Entity\User;
 use App\Form\UserType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -213,4 +214,8 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute("user_list");
     }
+
+
+
+
 }

@@ -8,6 +8,7 @@ use App\Entity\Place;
 use App\Entity\State;
 use App\Entity\User;
 use App\Form\UserType;
+use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -138,6 +139,9 @@ class UserController extends AbstractController
     {
         $placeRepository= $this->getDoctrine()->getRepository(Place::class);
 
+        //Si la réponse contient un élément name provenant du formulaire de recherche
+        //->affiche liste par filtre de recherche
+        //Si la réponse n'en contient pas -> affiche tous les lieux
         if(!empty($_POST["name"])){
             $name = $_POST["name"];
             $places = $placeRepository->findAllByFilter($name);
@@ -191,6 +195,67 @@ class UserController extends AbstractController
 
         return $this->render("user/managePlace.html.twig",[
             "places"=>$places
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "sortir/admin/gestion-ville",
+     *     name="gestion_ville",
+     *     methods={"GET","POST"}
+     * )
+     */
+    public function citiesManagement()
+    {
+        $cityRepository= $this->getDoctrine()->getRepository(City::class);
+
+        //Si la réponse contient un élément name provenant du formulaire de recherche
+        //->affiche liste par filtre de recherche
+        //Si la réponse n'en contient pas -> affiche tous les lieux
+        if(!empty($_POST["name"])){
+            $name = $_POST["name"];
+            $cities = $cityRepository->findAllByFilter($name);
+        }
+
+        else {
+            $cities=$cityRepository->findAll();
+        }
+
+        //fonctionnalité ajouter une ville
+
+        $cityToAdd = new City();
+
+        if (!empty ($_POST["nameCity"])) {
+
+            $city = $_POST["nameCity"];
+            $zip = $_POST["zip"];
+
+            //Cas d'un nouveau nom de ville : rajout dans la table Ville
+            //Recherche dans la table City une ville où le nom = $_POST['nameCity']
+            $cityRepository=$this->getDoctrine()->getRepository(City::class);
+            $cityCompare=$cityRepository->findOneBy(['name'=>$_POST["nameCity"]]);
+
+            if(($_POST["nameCity"])!==($cityCompare)){
+
+                $cityToAdd->setName($city);
+                $cityToAdd->setZip($zip);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($cityToAdd);
+                $em->flush();
+
+            } else {
+                //Cas d'une ville existante : affiche un message
+                $this->addFlash('success', "La ville que vous indiquez existe déjà
+                dans la base");
+            }
+
+            //Redirige vers la page actuelle pour vider le formulaire
+            return $this->redirectToRoute('gestion_ville');
+        }
+
+        return $this->render("admin/manageCity.html.twig",[
+            "cities"=>$cities
         ]);
     }
 

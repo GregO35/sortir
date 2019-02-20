@@ -248,12 +248,23 @@ class ExcursionController extends AbstractController
      */
     public function modifExcursion(Request $request, $id)
     {
+        $city = new City();
+
+        //Récupère de la base les informations de la sortie grâce son id
         $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
         $excursion = $excursionRepository->find($id);
         $previousState = $excursion->getState();
 
+        //Créé le formulaire d'excursion
         $excursionForm = $this->createForm(ExcursionType::class, $excursion);
         $excursionForm->handleRequest($request);
+
+        //Récupère les villes existants en BDD
+        $cityRepository=$this->getDoctrine()->getRepository(City::class);
+        $cities= $cityRepository->findAll();
+
+        //Récupère la ville qui correspond à la sortie
+        $city = $excursionRepository->findCity($id);
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
@@ -262,6 +273,7 @@ class ExcursionController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($excursion);
+
             $em->flush();
 
             return $this->redirectToRoute('index');
@@ -269,7 +281,9 @@ class ExcursionController extends AbstractController
 
         return $this->render("excursion/modif.html.twig",[
             'excursionForm' => $excursionForm->createView(),
-            'excursion' => $excursion
+            'excursion' => $excursion,
+            'cities'=>$cities,
+            'city'=>$city
         ]);
     }
 

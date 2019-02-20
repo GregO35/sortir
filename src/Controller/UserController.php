@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Excursion;
+use App\Entity\Place;
 use App\Entity\State;
 use App\Entity\User;
 use App\Form\UserType;
@@ -124,6 +125,25 @@ class UserController extends AbstractController
                "user" => $user
            ]);
     }
+
+    /**
+     * @Route(
+     *     "sortir/utilisateur/gestion-lieu",
+     *      name="gestion_lieu",
+     *      methods={"GET","POST"}
+     *     )
+     */
+     public function placesManagement()
+    {
+        $placeRepository= $this->getDoctrine()->getRepository(Place::class);
+        $places= $placeRepository->findAll();
+
+        return $this->render("user/managePlace.html.twig",[
+            "places"=>$places
+        ]);
+    }
+
+
 
     /**
      * @Route(

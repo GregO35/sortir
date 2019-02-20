@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="col-sm-6 offset-sm-3 text-center">
+        <br>
+        <h2 class="h3 mb-3 font-weight-normal">Gérer les lieux</h2>
+    </div>
+
+    <h5 >Filtrer les lieux</h5>
+
+    <form method="post" action="{{ path('gestion_lieu') }}">
+        <div class="row">
+            <div class="col">
+                <label>Le nom contient :</label>
+            </div>
+
+            <div class="col search_excursion">
+                 <input type="search" name="name">
+            </div>
+
+            <div class="col button">
+                 <button class="btn btn-lg btn-primary float-left" type="submit">Rechercher</button>
+            </div>
+        </div>
+    </form>
+    <br>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Nom</th>
+            <th>Rue</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+
+{% endblock %}
+
+{% block title %}Gérer les lieux{% endblock %}
+

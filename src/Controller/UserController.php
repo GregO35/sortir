@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\Excursion;
 use App\Entity\Place;
 use App\Entity\State;
@@ -137,21 +138,61 @@ class UserController extends AbstractController
     {
         $placeRepository= $this->getDoctrine()->getRepository(Place::class);
 
-        if($_POST){
+        if(!empty($_POST["name"])){
             $name = $_POST["name"];
-            $places = $placeRepository->findAllByFilters($name);
+            $places = $placeRepository->findAllByFilter($name);
         }
 
         else {
             $places = $placeRepository->findAll();
         }
 
+        //fonctionnalité ajouter un lieu
+        $placeToAdd = new Place();
+        $cityToAdd = new City();
+
+        if ((!empty ($_POST["city"]))&&(!empty ($_POST["namePlace"]))&&(!empty($_POST["street"]))) {
+            $city = $_POST["city"];
+
+            //Cas d'un nouveau nom de ville : rajout dans la table Ville
+            //Recherche dans la table City une ville où le nom = $_POST['city']
+            $cityRepository=$this->getDoctrine()->getRepository(City::class);
+            $cityCompare=$cityRepository->findOneBy(['name'=>$_POST["city"]]);
+
+            if(($_POST["city"])!==($cityCompare)){
+                $cityToAdd->setName($city);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($cityToAdd);
+                $em->flush();
+            }
+            //Cas d'une ville existante
+            //Récupération de l'objet City
+            $cityObject= $cityRepository->findOneBy(['name'=>$_POST["city"]]);
+            $name = $_POST["namePlace"];
+            $street = $_POST["street"];
+            $latitude = $_POST["latitude"];
+            $longitude = $_POST["longitude"];
+
+            //Modification de l'instance et hydratation dans la table Place
+            $placeToAdd->setCity($cityObject);
+            $placeToAdd->setName($name);
+            $placeToAdd->setStreet($street);
+            $placeToAdd->setLatitude($latitude);
+            $placeToAdd->setLongitude($longitude);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($placeToAdd);
+            $em->flush();
+
+            //Redirige vers la page actuelle pour vider le formulaire
+            return $this->redirectToRoute('gestion_lieu');
+        }
 
         return $this->render("user/managePlace.html.twig",[
             "places"=>$places
         ]);
     }
-
 
 
     /**

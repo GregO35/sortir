@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="col-sm-6 offset-sm-3 text-center">
+    <div class="col-sm-6 offset-sm-3 text-center" xmlns="http://www.w3.org/1999/html">
         <br>
         <h2 class="h3 mb-3 font-weight-normal">Gérer les lieux</h2>
     </div>
@@ -51,7 +51,7 @@
                 <td><input type="text" name="street"></td>
                 <td><input type="text" name="latitude"></td>
                 <td><input type="text" name="longitude"></td>
-                <td><a href="{#{ path('registerPlace',{'id': place.id}) }#}">Ajouter</a></td>
+                <td><input type="submit" value="Ajouter"></td>
             </form>
         </tr>
     </table>

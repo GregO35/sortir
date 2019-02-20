@@ -136,7 +136,16 @@ class UserController extends AbstractController
      public function placesManagement()
     {
         $placeRepository= $this->getDoctrine()->getRepository(Place::class);
-        $places= $placeRepository->findAll();
+
+        if($_POST){
+            $name = $_POST["name"];
+            $places = $placeRepository->findAllByFilters($name);
+        }
+
+        else {
+            $places = $placeRepository->findAll();
+        }
+
 
         return $this->render("user/managePlace.html.twig",[
             "places"=>$places

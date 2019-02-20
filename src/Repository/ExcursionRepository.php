@@ -43,7 +43,7 @@ class ExcursionRepository extends ServiceEntityRepository
     }
 
     public function findAllByFilters($site, $name, $startDate, $endDate,
-                 $organizer, $register, $notRegister, $passedExcursion, User $user)
+                                         $organizer, $register, $notRegister, $passedExcursion, User $user)
     {
         $qb = $this->createQueryBuilder('e');
 

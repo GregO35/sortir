@@ -11,7 +11,7 @@
     <form method="post" action="{{ path('gestion_lieu') }}">
         <div class="row">
             <div class="col">
-                <label>Le nom contient :</label>
+                <label>Le nom du lieu contient :</label>
             </div>
 
             <div class="col search_excursion">
@@ -27,15 +27,21 @@
 
     <table class="table table-striped">
         <tr>
-            <th>Nom</th>
+            <th>Ville</th>
+            <th>Nom du lieu</th>
             <th>Rue</th>
             <th>Latitude</th>
             <th>Longitude</th>
         </tr>
-
+        {% for place in places %}
         <tr>
-            <td></td>
+            <td>{{ place.city }}</td>
+            <td>{{ place.name }}</td>
+            <td>{{ place.street }}</td>
+            <td>{{ place.latitude }}</td>
+            <td>{{ place.longitude }}</td>
         </tr>
+        {% endfor %}
     </table>
 
 {% endblock %}

@@ -32,7 +32,7 @@ class ExcursionController extends AbstractController
 
         if($_POST)
         {
-            $site = $_POST["sell"];
+            $site = $_POST["sel1"];
             $name = $_POST["name"];
             $dateStart = $_POST["date_start"];
             $dateEnd = $_POST["date_end"];

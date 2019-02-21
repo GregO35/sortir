@@ -18,8 +18,47 @@
         {{ form_row(excursionForm.startDate) }}
         {{ form_row(excursionForm.endDate) }}
         {{ form_row(excursionForm.registrationNumberMax) }}
-        {{ form_row(excursionForm.description) }}
+
         {{ form_row(excursionForm.duration) }}
+        {{ form_row(excursionForm.description) }}
+
+
+        <div class="form-row">
+            <div class="row">
+                <div class="col-sm">Ville :</div>
+                <div class="col-sm">
+                    <select name="ville">
+                        {% for city in cities %}
+                            <option value="{{ city.name }}">{{ city.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="form-row">
+            <div class="col-sm">Lieu :</div>
+            <div class="col-sm">
+                <select name="Lieu">
+                    <ul id="listeLieux"></ul>
+                </select></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">Rue :</div>
+            <div class="col-sm">
+                <h5>{#{% if place != null %} {{ place.street }} {% endif %}#}</h5></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">Code Postal :</div>
+            <div class="col-sm"><h5>{#{% if city != null %} {{ city.zip }} {% endif %}#}</h5></div>
+        </div>
+
+        {#{ form_row(placeForm.latitude) }}
+        {{ form_row(placeForm.longitude) }#}
+
+
         {{ form_row(excursionForm.urlPicture) }}
 
         <div class="container">

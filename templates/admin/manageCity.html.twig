@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="col-sm-6 offset-sm-3 text-center" xmlns="http://www.w3.org/1999/html">
+        <br>
+        <h2 class="h3 mb-3 font-weight-normal">Gérer les villes</h2>
+    </div>
+
+    <h5 >Filtrer les villes</h5>
+
+    <form method="post" action="{{ path('gestion_ville') }}">
+        <div class="row">
+            <div class="col">
+                <label>Le nom de la ville contient :</label>
+            </div>
+
+            <div class="col search_excursion">
+                <input type="search" name="name">
+            </div>
+
+            <div class="col button">
+                <button class="btn btn-lg btn-primary float-left" type="submit">Rechercher</button>
+            </div>
+        </div>
+    </form>
+    <br>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Ville</th>
+            <th>Code postal</th>
+            <th>Actions</th>
+        </tr>
+        {% for city in cities %}
+            <tr>
+                <td>{{ city.name }}</td>
+                <td>{{ city.zip }}</td>
+                <td><a href="">Modifier - </a><a href="">Supprimer</a></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <form method="post" action="{{ path('gestion_ville') }}">
+                <td><input type="text" name="nameCity"></td>
+                <td><input type="text" name="zip"></td>
+                <td><input type="submit" value="Ajouter"></td>
+            </form>
+        </tr>
+    </table>
+
+{% endblock %}
+
+{% block title %}Gérer les villes{% endblock %}
+

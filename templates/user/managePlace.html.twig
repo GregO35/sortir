@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="col-sm-6 offset-sm-3 text-center" xmlns="http://www.w3.org/1999/html">
+        <br>
+        <h2 class="h3 mb-3 font-weight-normal">Gérer les lieux</h2>
+    </div>
+
+    <h5 >Filtrer les lieux</h5>
+
+    <form method="post" action="{{ path('gestion_lieu') }}">
+        <div class="row">
+            <div class="col">
+                <label>Le nom du lieu contient :</label>
+            </div>
+
+            <div class="col search_excursion">
+                 <input type="search" name="name">
+            </div>
+
+            <div class="col button">
+                 <button class="btn btn-lg btn-primary float-left" type="submit">Rechercher</button>
+            </div>
+        </div>
+    </form>
+    <br>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Ville</th>
+            <th>Nom du lieu</th>
+            <th>Rue</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Action</th>
+        </tr>
+        {% for place in places %}
+        <tr>
+            <td>{{ place.city }}</td>
+            <td>{{ place.name }}</td>
+            <td>{{ place.street }}</td>
+            <td>{{ place.latitude }}</td>
+            <td>{{ place.longitude }}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <form method="post" action="{{ path('gestion_lieu') }}">
+                <td><input type="text" name="city"></td>
+                <td><input type="text" name="namePlace"></td>
+                <td><input type="text" name="street"></td>
+                <td><input type="text" name="latitude"></td>
+                <td><input type="text" name="longitude"></td>
+                <td><input type="submit" value="Ajouter"></td>
+            </form>
+        </tr>
+    </table>
+
+{% endblock %}
+
+{% block title %}Gérer les lieux{% endblock %}
+

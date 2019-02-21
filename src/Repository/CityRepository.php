@@ -20,6 +20,25 @@ class CityRepository extends ServiceEntityRepository
     }
 
 
+    public function findAllByFilter($name)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+
+        if($name !== "")
+        {
+            $qb->andWhere('c.name LIKE :name');
+            $qb->setParameter('name', "%".$name."%");
+        }
+
+        $query = $qb->getQuery();
+        $cities = $query->getResult();
+
+        return $cities;
+    }
+
+
+
     // /**
     //  * @return City[] Returns an array of City objects
     //  */

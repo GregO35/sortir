@@ -123,7 +123,8 @@ class UserController extends AbstractController
            $user = $userRepository->find($id);
 
            return $this->render("user/detail.html.twig",[
-               "user" => $user
+               "user" => $user,
+               "redirect" => $_SERVER['HTTP_REFERER']
            ]);
     }
 

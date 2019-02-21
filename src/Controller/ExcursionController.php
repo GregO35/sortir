@@ -30,10 +30,14 @@ class ExcursionController extends AbstractController
     public function listExcursion()
     {
         $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $siteRepository = $this->getDoctrine()->getRepository(Site::class);
+
+        $sites = $siteRepository->findAll();
 
         if($_POST)
         {
-            $site = $_POST["sel1"];
+
+            $site = $_POST["sell"];
             $name = $_POST["name"];
             $dateStart = $_POST["date_start"];
             $dateEnd = $_POST["date_end"];
@@ -62,7 +66,9 @@ class ExcursionController extends AbstractController
                 $passedExcursion = true;
             }
 
-            $excursions = $excursionRepository->findAllByFilters($site, $name, $dateStart, $dateEnd,
+            $siteRepository = $this->getDoctrine()->getRepository(Site::class);
+
+            $excursions = $excursionRepository->findAllByFilters($siteRepository, $site, $name, $dateStart, $dateEnd,
                                     $organizer, $register, $notRegister, $passedExcursion, $this->getUser());
 
         }
@@ -72,7 +78,8 @@ class ExcursionController extends AbstractController
         }
 
         return $this->render('default/index.html.twig', [
-            "excursions"=>$excursions
+            "excursions"=>$excursions,
+            'sites' => $sites
         ]);
     }
 
@@ -254,12 +261,15 @@ class ExcursionController extends AbstractController
      */
     public function modifExcursion(Request $request, $id)
     {
+
         $city = new City();
 
         //Récupère de la base les informations de la sortie grâce son id
+
         $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
         $excursion = $excursionRepository->find($id);
         $previousState = $excursion->getState();
+
 
         //Créé le formulaire d'excursion
         $excursionForm = $this->createForm(ExcursionType::class, $excursion);
@@ -271,6 +281,7 @@ class ExcursionController extends AbstractController
 
         //Récupère la ville qui correspond à la sortie
         $city = $excursionRepository->findCity($id);
+
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
@@ -287,9 +298,11 @@ class ExcursionController extends AbstractController
 
         return $this->render("excursion/modif.html.twig",[
             'excursionForm' => $excursionForm->createView(),
+
             'excursion' => $excursion,
             'cities'=>$cities,
             'city'=>$city
+
         ]);
     }
 
@@ -361,12 +374,6 @@ class ExcursionController extends AbstractController
         $excursionRepository= $this->getDoctrine()->getRepository(Excursion::class);
         $excursion= $excursionRepository->find($id);
 
-        //récupère la ville organisatrice de l'organisateur
-        $siteRepository= $this->getDoctrine()->getRepository(Site::class);
-        $id= $this->getUser()->getSite();
-        $site_id= $siteRepository->find($id);
-        $site= $site_id->getName();
-
         //récupère le lieu Place dans la base
         $excursionRepository=$this->getDoctrine()->getRepository(Excursion::class);
         $place= $excursionRepository->findPlace($id);
@@ -376,8 +383,14 @@ class ExcursionController extends AbstractController
         $city= $excursionRepository->findCity($id);
 
         //récupère les participants de l'excursion
-        $participantsRepository= $this->getDoctrine()->getRepository(User::class);
-        $participants = $participantsRepository->findParticipants($id);
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $participants = $userRepository->findParticipants($id);
+
+        //récupère la ville organisatrice de l'organisateur
+        $siteRepository= $this->getDoctrine()->getRepository(Site::class);
+        $id = $this->getUser()->getSite();
+        $site_id= $siteRepository->find($id);
+        $site= $site_id->getName();
 
         //dd($participants);
 
@@ -405,6 +418,7 @@ class ExcursionController extends AbstractController
 
         if($_POST)
         {
+            dd($id);
             $stateRepository = $this->getDoctrine()->getRepository(State::class);
             $stateClose = $stateRepository->find(6);
 

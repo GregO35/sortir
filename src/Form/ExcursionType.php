@@ -28,10 +28,12 @@ class ExcursionType extends AbstractType
                 'label' => 'Date de clôture*'
             ])
             ->add('registrationNumberMax', NumberType::class,[
+
                 'label' => 'Nombre maximum de participants*'
             ])
             ->add('description', TextType::class,[
                 'label' => 'Description et infos'
+
             ])
             ->add('duration', NumberType::class,[
                 'label' => 'Durée de la sortie (en minutes)'

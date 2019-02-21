@@ -3,6 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
+
     <h1>Inscription</h1>
 
     {{ form_start(registrationForm, {
@@ -10,6 +11,7 @@
             'novalidate': 'novalidate'
         }})
     }}
+
     <div>
         <label>Site :</label>
         <select name="site">
@@ -22,4 +24,26 @@
     {{ form_widget(registrationForm) }}
     <button class="btn btn-success">Envoyer !</button>
     {{ form_end(registrationForm) }}
+
+
+
+<br>
+    {% if app.user.roles[0] == "admin" %}
+    <h4>Importer un fichier CSV : </h4>
+    <form action="" method="post" enctype="multipart/form-data" name="form">
+            <div class="row">
+
+                <div class="">
+                <input class = "form-control-lg" name="csv" type="file" id="csv" />
+            </div>
+            <div class="">
+                <input class ="btn btn-lg btn-primary" type="submit" name="submit" value="valider" />
+            </div>
+
+            </div>
+
+        </form>
+    {% endif %}
+
+
 {% endblock %}

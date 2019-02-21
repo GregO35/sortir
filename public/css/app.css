@@ -8,15 +8,22 @@ body .container {
     flex-direction: column;
 }
 
-#create-excursion
-{
 
+#photo-profil
+{
+    width: 45px;
+    height: 60px;
 }
 
 #excursion {
     -webkit-columns: 300px 2;
     -moz-columns: 300px 2;
     columns: 300px 2;
+}
+
+
+header {
+    margin-bottom: 60px;
 }
 
 header .site-title {
@@ -27,7 +34,9 @@ header .site-title a {
     color: #212529;
     display: flex;
     align-items: center;
+
 }
+
 
 header .site-title a:hover {
     text-decoration: none;

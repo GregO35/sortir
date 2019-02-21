@@ -19,6 +19,7 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
+
     public function findAllByFilter($name)
     {
         $qb = $this->createQueryBuilder('c');
@@ -35,6 +36,7 @@ class CityRepository extends ServiceEntityRepository
 
         return $cities;
     }
+
 
 
     // /**

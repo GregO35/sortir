@@ -5,9 +5,18 @@
 {% block content %}
     <div class="container-fluid table table-responsive">
 
-        <div class="offset-9 col-3">
-            <p><STRONG>Date du jour: {{ "now"|date("d/m/Y") }}</STRONG></p>
-            <p><STRONG>Utilisateur: {{ app.user.username }}</STRONG></p>
+        <div class="row">
+            <div class="offset-8 col-1">
+                {% if app.user.photo_file %}
+                    <img id="photo-profil" class="photo" alt="Photo" src="{{ asset('uploads/photoFiles/' ~ app.user.photo_file) }}"/>
+                {% else %}
+                    <img id="photo-profil" class="photo" alt="Photo" src="{{ asset('img/Photo.png') }}">
+                {% endif %}
+            </div>
+            <div class="col-3">
+                <p><STRONG>Date du jour: {{ "now"|date("d/m/Y") }}</STRONG></p>
+                <p><STRONG>Utilisateur: {{ app.user.username }}</STRONG></p>
+            </div>
         </div>
 
         <p>Filtrer les sorties</p>
@@ -19,11 +28,12 @@
                 <div class="form-group col-lg-6">
 
                     <label for="sel1">Site :</label>
-                    <select class="form-control" id="sel1" name="sel1">
-                        <option>Saint-Herblain</option>
-                        <option>Chartres de Bretagne</option>
-                        <option>Niort</option>
-                        <option>La Roche sur Yon</option>
+
+                    <select class="form-control" id="sel1" name="sell">
+                        <option></option>
+                        {% for site in sites %}
+                            <option>{{ site.name }}</option>
+                        {% endfor %}
                     </select>
 
                     <div class="search_excursion">
@@ -111,15 +121,20 @@
                     {% endfor %}
 
                     {% if excursion.endDate|date("U") > "now"|date("U") %}
+
                         {% if app.user.username != excursion.organizer.username and excursion.state.libelle == "Ouvert" %}
+
                             {% if not registerUser %}
                                 <a href="{{ path('excursion_register',{'id': excursion.id}) }}">S'inscrire -</a>
                             {% else %}
                                 <a href="{{ path('excursion_unregister',{'id': excursion.id}) }}">Se désister -</a>
                             {% endif %}
-                        {% elseif app.user.username == excursion.organizer.username or app.user.roles[0] == "admin" %}
+
+                        {% endif %}
+                        {% if app.user.username == excursion.organizer.username or app.user.roles[0] == "admin" %}
                             <a href="{{ path('excursion_modif',{'id': excursion.id}) }}">Modifier -</a>
                         {% endif %}
+
                     {% endif %}
                     <a href="{{ path('excursion_details', {'id': excursion.id}) }}">Afficher</a>
 

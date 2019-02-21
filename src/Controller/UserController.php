@@ -2,19 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\City;
+
 use App\Entity\Excursion;
-use App\Entity\Place;
-use App\Entity\State;
 use App\Entity\User;
 use App\Form\UserType;
-use http\Exception;
+use App\Entity\City;
+use App\Entity\Place;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 
 class UserController extends AbstractController
@@ -348,4 +347,5 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute("user_list");
     }
+
 }

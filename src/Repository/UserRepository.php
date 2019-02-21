@@ -31,8 +31,9 @@ class UserRepository extends ServiceEntityRepository
     public function findParticipants($id){
 
         $qb =  $this->createQueryBuilder('u');
-        $qb ->join('u.excursions','e')
-            ->andWhere('e.id=:id')
+
+        $qb ->innerJoin('u.excursions','e')
+            ->Where('e.id=:id')
             ->setParameter('id',$id)
         ;
 

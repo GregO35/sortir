@@ -20,6 +20,7 @@ class PlaceRepository extends ServiceEntityRepository
         parent::__construct($registry, Place::class);
     }
 
+
     public function findAllByFilter($name)
     {
         $qb = $this->createQueryBuilder('p');
@@ -36,6 +37,7 @@ class PlaceRepository extends ServiceEntityRepository
 
         return $places;
     }
+
 
     // /**
     //  * @return Place[] Returns an array of Place objects

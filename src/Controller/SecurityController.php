@@ -44,9 +44,11 @@ class SecurityController extends AbstractController
 
             //cherche l'objet site qui porte le nom de $_POST('site')
             $siteRepository=$this->getDoctrine()->getRepository(Site::class);
+
             $id_user = $siteRepository->findOneBy(['name'=>$_POST{'site'}]);
 
             //Modification du site dans le compte utilisateur
+
             $user->setSite($id_user);
 
             $entityManager = $this->getDoctrine()->getManager();

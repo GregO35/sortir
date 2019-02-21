@@ -392,9 +392,7 @@ class ExcursionController extends AbstractController
         $site_id= $siteRepository->find($id);
         $site= $site_id->getName();
 
-        //dd($participants);
 
-        dd($participants);
 
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,

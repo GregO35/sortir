@@ -119,11 +119,13 @@ class UserController extends AbstractController
      */
     public function detailUser($id)
     {
+
            $userRepository = $this->getDoctrine()->getRepository(User::class);
            $user = $userRepository->find($id);
 
            return $this->render("user/detail.html.twig",[
-               "user" => $user
+               "user" => $user,
+               "urlRedirect"=>  $_SERVER['HTTP_REFERER']
            ]);
     }
 
@@ -344,6 +346,10 @@ class UserController extends AbstractController
         $em->flush();
 
         $userRepository->remove($user->getId());
+
+
+
+
 
         return $this->redirectToRoute("user_list");
     }

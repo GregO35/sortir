@@ -31,7 +31,48 @@
                     {% else %}
                         <a href="{{ path('user_activate',{"id": user.id}) }}">activer</a>
                     {% endif %}
-                    <a href="{{ path('user_erase',{"id": user.id}) }}">Supprimer</a>
+                    <a href="{{ path('user_erase',{"id": user.id}) }}" >Supprimer</a>
+
+
+                    <!-- Modal pour alerte quand suppression utilisateur -->
+                    <!-- <a href="{{ path('user_erase',{"id": user.id}) }}" data-toggle="modal" data-target="#exampleModal" >Supprimer</a>
+
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Attention !!!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Voulez-vous supprimer cet utilisateur ?
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{{ path('user_erase',{"id": user.id}) }}" type="submit" class="btn btn-primary" data-dismiss="modal" id="exampleModal">Oui</a>
+                                    <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Non</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </td>
             </tr>
 

@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\Excursion;
+use App\Entity\Place;
 use App\Entity\State;
 use App\Entity\User;
 use App\Form\UserType;
+use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,6 +127,138 @@ class UserController extends AbstractController
                "user" => $user
            ]);
     }
+
+    /**
+     * @Route(
+     *     "sortir/utilisateur/gestion-lieu",
+     *      name="gestion_lieu",
+     *      methods={"GET","POST"}
+     *     )
+     */
+     public function placesManagement()
+    {
+        $placeRepository= $this->getDoctrine()->getRepository(Place::class);
+
+        //Si la réponse contient un élément name provenant du formulaire de recherche
+        //->affiche liste par filtre de recherche
+        //Si la réponse n'en contient pas -> affiche tous les lieux
+        if(!empty($_POST["name"])){
+            $name = $_POST["name"];
+            $places = $placeRepository->findAllByFilter($name);
+        }
+
+        else {
+            $places = $placeRepository->findAll();
+        }
+
+        //fonctionnalité ajouter un lieu
+        $placeToAdd = new Place();
+        $cityToAdd = new City();
+
+        if ((!empty ($_POST["city"]))&&(!empty ($_POST["namePlace"]))&&(!empty($_POST["street"]))) {
+            $city = $_POST["city"];
+
+            //Cas d'un nouveau nom de ville : rajout dans la table Ville
+            //Recherche dans la table City une ville où le nom = $_POST['city']
+            $cityRepository=$this->getDoctrine()->getRepository(City::class);
+            $cityCompare=$cityRepository->findOneBy(['name'=>$_POST["city"]]);
+
+            if(($_POST["city"])!==($cityCompare)){
+                $cityToAdd->setName($city);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($cityToAdd);
+                $em->flush();
+            }
+            //Cas d'une ville existante
+            //Récupération de l'objet City
+            $cityObject= $cityRepository->findOneBy(['name'=>$_POST["city"]]);
+            $name = $_POST["namePlace"];
+            $street = $_POST["street"];
+            $latitude = $_POST["latitude"];
+            $longitude = $_POST["longitude"];
+
+            //Modification de l'instance et hydratation dans la table Place
+            $placeToAdd->setCity($cityObject);
+            $placeToAdd->setName($name);
+            $placeToAdd->setStreet($street);
+            $placeToAdd->setLatitude($latitude);
+            $placeToAdd->setLongitude($longitude);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($placeToAdd);
+            $em->flush();
+
+            //Redirige vers la page actuelle pour vider le formulaire
+            return $this->redirectToRoute('gestion_lieu');
+        }
+
+        return $this->render("user/managePlace.html.twig",[
+            "places"=>$places
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "sortir/admin/gestion-ville",
+     *     name="gestion_ville",
+     *     methods={"GET","POST"}
+     * )
+     */
+    public function citiesManagement()
+    {
+        $cityRepository= $this->getDoctrine()->getRepository(City::class);
+
+        //Si la réponse contient un élément name provenant du formulaire de recherche
+        //->affiche liste par filtre de recherche
+        //Si la réponse n'en contient pas -> affiche tous les lieux
+        if(!empty($_POST["name"])){
+            $name = $_POST["name"];
+            $cities = $cityRepository->findAllByFilter($name);
+        }
+
+        else {
+            $cities=$cityRepository->findAll();
+        }
+
+        //fonctionnalité ajouter une ville
+
+        $cityToAdd = new City();
+
+        if (!empty ($_POST["nameCity"])) {
+
+            $city = $_POST["nameCity"];
+            $zip = $_POST["zip"];
+
+            //Cas d'un nouveau nom de ville : rajout dans la table Ville
+            //Recherche dans la table City une ville où le nom = $_POST['nameCity']
+            $cityRepository=$this->getDoctrine()->getRepository(City::class);
+            $cityCompare=$cityRepository->findOneBy(['name'=>$_POST["nameCity"]]);
+
+            if(($_POST["nameCity"])!==($cityCompare)){
+
+                $cityToAdd->setName($city);
+                $cityToAdd->setZip($zip);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($cityToAdd);
+                $em->flush();
+
+            } else {
+                //Cas d'une ville existante : affiche un message
+                $this->addFlash('success', "La ville que vous indiquez existe déjà
+                dans la base");
+            }
+
+            //Redirige vers la page actuelle pour vider le formulaire
+            return $this->redirectToRoute('gestion_ville');
+        }
+
+        return $this->render("admin/manageCity.html.twig",[
+            "cities"=>$cities
+        ]);
+    }
+
 
     /**
      * @Route(

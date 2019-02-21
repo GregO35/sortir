@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Place;
+use App\Entity\Excursion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,23 @@ class PlaceRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Place::class);
+    }
+
+    public function findAllByFilter($name)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+
+        if($name !== "")
+        {
+            $qb->andWhere('p.name LIKE :name');
+            $qb->setParameter('name', "%".$name."%");
+        }
+
+        $query = $qb->getQuery();
+        $places = $query->getResult();
+
+        return $places;
     }
 
     // /**

@@ -35,6 +35,7 @@
                     <a class="nav-link" href="{{ path('home') }}">Accueil</a>
                     {% if app.user %}
                         <a class="nav-link" href="{{ path('index') }}">Index</a>
+                        <a class="nav-link" href="{{ path('gestion_lieu') }}">Gérer les lieux</a>
                         <a class="nav-link" href="{{ path('gestion_profil') }}">Mon profil</a>
                         <a class="nav-link" href="{{ asset("logout") }}">Se deconnecter</a>
 
@@ -42,6 +43,7 @@
 
                             <a class="nav-link" href="{{ path('user_list') }}">Gérer les utilisateurs</a>
                             <a class="nav-link" href="{{ path('app_register') }}">Créer un nouvel utilisateur</a>
+                            <a class="nav-link" href="{{ path('gestion_ville') }}">Gérer les villes</a>
 
                         {% endif %}
 

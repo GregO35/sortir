@@ -16,9 +16,7 @@
         <label>{{ excursion.startDate|date("d/m/Y H:i:s") }}</label>
     </div>
 
-    {{ excursion.id }}
-
-    <form method="post" action="{{ path('excursion_cancel', {"id": excursion.id}) }} }}">
+    <form method="post" action="{{ path('excursion_cancel', {'id': excursion.id}) }} }}">
 
         <div>
             <label for="description">Motif: </label>

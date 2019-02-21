@@ -9,9 +9,12 @@ body .container {
 }
 
 
-#create-excursion
-{
 
+#photo-profil
+
+{
+    width: 45px;
+    height: 60px;
 }
 
 #excursion {
@@ -37,7 +40,6 @@ header .site-title a {
 
 
 }
-
 
 
 

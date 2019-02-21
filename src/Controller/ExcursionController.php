@@ -11,6 +11,7 @@ use App\Entity\Excursion;
 use App\Form\CityType;
 use App\Form\ExcursionType;
 use App\Form\PlaceType;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,11 +30,14 @@ class ExcursionController extends AbstractController
     public function listExcursion()
     {
         $excursionRepository = $this->getDoctrine()->getRepository(Excursion::class);
+        $siteRepository = $this->getDoctrine()->getRepository(Site::class);
+
+        $sites = $siteRepository->findAll();
 
         if($_POST)
         {
 
-            $site = $_POST["sel1"];
+            $site = $_POST["sell"];
             $name = $_POST["name"];
             $dateStart = $_POST["date_start"];
             $dateEnd = $_POST["date_end"];
@@ -62,7 +66,9 @@ class ExcursionController extends AbstractController
                 $passedExcursion = true;
             }
 
-            $excursions = $excursionRepository->findAllByFilters($site, $name, $dateStart, $dateEnd,
+            $siteRepository = $this->getDoctrine()->getRepository(Site::class);
+
+            $excursions = $excursionRepository->findAllByFilters($siteRepository, $site, $name, $dateStart, $dateEnd,
                                     $organizer, $register, $notRegister, $passedExcursion, $this->getUser());
 
         }
@@ -72,7 +78,8 @@ class ExcursionController extends AbstractController
         }
 
         return $this->render('default/index.html.twig', [
-            "excursions"=>$excursions
+            "excursions"=>$excursions,
+            'sites' => $sites
         ]);
     }
 
@@ -112,15 +119,21 @@ class ExcursionController extends AbstractController
         $citiesRepository = $this->getDoctrine()->getRepository(City::class);
         $cities = $citiesRepository->findAll();
 
-        //Gère le formulaire des lieux Place
         $place = new Place();
-        $placeForm=$this->createForm(PlaceType::class,$place);
+        $placeForm = $this->createForm(PlaceType::class, $place);
         $placeForm->handleRequest($request);
 
-        //Récupère les lieux de la table Place
-        $placesRepository=$this->getDoctrine()->getRepository(Place::class);
-        $places = $placesRepository->findAll();
+        if ($request->isXmlHttpRequest())
+        {
+            dd("test");
+        }
 
+
+        /*if (isset($data['foo']) && $data['foo'] instanceof Collection) {
+            $data['foo'] = $this->getDoctrine()->getRepository(Foo::class)->findBy([
+                                                            'id' => $data['foo']->toArray(),
+            ]);
+        }*/
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
@@ -140,22 +153,21 @@ class ExcursionController extends AbstractController
             $em->persist($excursion);
             //hydrate les champs de la table ville
             $em->persist($city);
-            //hydrate les champs de la table ville
-            $em->persist($place);
 
             $em->flush();
 
             return $this->redirectToRoute('index');
         }
 
+
+
         return $this->render("excursion/create.html.twig",[
             'excursionForm' => $excursionForm->createView(),
             'cityForm' => $cityForm->createView(),
-            'placeForm'=>$placeForm->createView(),
+            'placeForm' => $placeForm->createView(),
             'user'=>$user,
             'site'=>$site,
-            'cities'=>$cities,
-            'places'=>$places
+            'cities'=>$cities
         ]);
     }
 
@@ -362,12 +374,6 @@ class ExcursionController extends AbstractController
         $excursionRepository= $this->getDoctrine()->getRepository(Excursion::class);
         $excursion= $excursionRepository->find($id);
 
-        //récupère la ville organisatrice de l'organisateur
-        $siteRepository= $this->getDoctrine()->getRepository(Site::class);
-        $id= $this->getUser()->getSite();
-        $site_id= $siteRepository->find($id);
-        $site= $site_id->getName();
-
         //récupère le lieu Place dans la base
         $excursionRepository=$this->getDoctrine()->getRepository(Excursion::class);
         $place= $excursionRepository->findPlace($id);
@@ -377,9 +383,16 @@ class ExcursionController extends AbstractController
         $city= $excursionRepository->findCity($id);
 
         //récupère les participants de l'excursion
-        $participantsRepository= $this->getDoctrine()->getRepository(User::class);
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $participants = $userRepository->findParticipants($id);
 
-        $participants= $participantsRepository->findParticipants($id);
+        //récupère la ville organisatrice de l'organisateur
+        $siteRepository= $this->getDoctrine()->getRepository(Site::class);
+        $id = $this->getUser()->getSite();
+        $site_id= $siteRepository->find($id);
+        $site= $site_id->getName();
+
+        //dd($participants);
 
         dd($participants);
 
@@ -407,6 +420,7 @@ class ExcursionController extends AbstractController
 
         if($_POST)
         {
+            dd($id);
             $stateRepository = $this->getDoctrine()->getRepository(State::class);
             $stateClose = $stateRepository->find(6);
 

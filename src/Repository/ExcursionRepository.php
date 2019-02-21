@@ -42,34 +42,41 @@ class ExcursionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllByFilters($site, $name, $startDate, $endDate,
+    public function findAllByFilters($siteRepository, $site, $name, $startDate, $endDate,
 
                                          $organizer, $register, $notRegister, $passedExcursion, User $user)
 
     {
         $qb = $this->createQueryBuilder('e');
 
+        if($site !== "")
+        {
+            $site = $siteRepository->findOneBy(["name" => $site]);
+            $qb->andwhere('e.site = :site');
+            $qb->setParameter('site', $site);
+        }
+
         if($startDate !== "")
         {
-            $qb->orWhere('e.startDate > :startdate');
+            $qb->andWhere('e.startDate > :startdate');
             $qb->setParameter('startdate', $startDate);
         }
 
         if($endDate !== "")
         {
-            $qb->orWhere('e.startDate < :enddate');
+            $qb->andWhere('e.startDate < :enddate');
             $qb->setParameter('enddate', $endDate);
         }
 
         if($organizer)
         {
-            $qb->orWhere('e.organizer = :organizer');
+            $qb->andWhere('e.organizer = :organizer');
             $qb->setParameter('organizer', $user);
         }
 
         if($register)
         {
-            $qb->orWhere('e.id IN (:register)');
+            $qb->andWhere('e.id IN (:register)');
             $qb->setParameter('register', $user->getExcursions());
         }
 

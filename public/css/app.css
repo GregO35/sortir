@@ -9,7 +9,9 @@ body .container {
 }
 
 
+
 #photo-profil
+
 {
     width: 45px;
     height: 60px;
@@ -26,6 +28,7 @@ header {
     margin-bottom: 60px;
 }
 
+
 header .site-title {
     font-size: 32px;
 }
@@ -35,7 +38,9 @@ header .site-title a {
     display: flex;
     align-items: center;
 
+
 }
+
 
 
 header .site-title a:hover {
@@ -43,7 +48,8 @@ header .site-title a:hover {
 }
 
 header .site-title img {
-    height: 27px;
+
+    height: 60px;
     margin-right: 3px;
 }
 

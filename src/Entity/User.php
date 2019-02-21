@@ -16,6 +16,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
 
+    public function __construct()
+    {
+        $this->excursions = new ArrayCollection();
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -127,10 +132,6 @@ class User implements UserInterface
     private $resetPassword;
 
 
-    public function __construct()
-    {
-        $this->excursions = new ArrayCollection();
-    }
 
 
 

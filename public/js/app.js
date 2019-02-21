@@ -1,19 +1,32 @@
-function event() {
-    document.getElementById("Ville").addEventListener("click",ajouterLieu());
-}
+$(document).ready(function () {
 
-function ajouterLieu(){
-    var ville = document.getElementById('Ville').value;
+    let $city = $('#city_name');
+// When sport gets selected ...
+    $city.on('change', function() {
+        // ... retrieve the corresponding form.
+        let $form = $(this).closest('form');
+        // Simulate form data, but only include the selected sport value.
+        let data = {};
+        data[$city.attr('name')] = ($city.children()[$city.val()]).textContent;
+        //data = 'name=' + ($city.children()[$city.val()]).textContent;
 
+        // Submit data via AJAX to the form's action path.
+        console.log(data);
 
-    var lieu =
+        $.ajax({
+            url : $form.attr('action'),
+            type: $form.attr('method'),
+            data : data,
+            success: function(html) {
+                console.log("SUCCESS!");
+                // Replace current position field ...
+                $('#city_places').replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('#city_places')
+                );
+                // Position field now displays the appropriate positions.
+            }
+        });
+    });
+})
 
-    var liLieu=document.createElement("li");
-    var pLieu= document.createElement("p");
-
-    pLieu.innerText=lieu;
-
-    var lieu=document.getElementById("listeLieu");
-    listeLieu.appendChild(liLieu);
-    liLieu.appendChild(pLieu);
-}

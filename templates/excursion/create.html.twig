@@ -31,25 +31,24 @@
 
 
         {#Choix de la ville de la sortie dans liste déroulante#}
-        {{ form_row(cityForm.name, {
-            'attr': {
-                'id': 'Ville'
-            }}) }}
+        {{ form_row(cityForm.name) }}
+        {{ form_row(cityForm.places) }}
 
-        {#Choix du lieu de la sortie parmi celles de la ville en question#}
+        {#Choix du lieu de la sortie parmi celles de la ville en question
 
+        <div>{{ JSONplaces }}</div>
         <div class="row">
-            <div class="col-sm">Lieu :</div>
             <div class="col-sm">
-                <select name="Lieu">
-                    <ul id="listeLieu">
-
-                    </ul>
-
-                </select></div>
+                <label class="col-sm" for="lieu">Lieu :</label>
+                <select name="lieu" id="lieu">
+                    {% for place in places %}
+                        <option>{{ place.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
 
-        {# Récupère et affiche la rue du lieu choisi
+        Récupère et affiche la rue du lieu choisi
         <div>
             <label>Rue :</label>
             <p>{{ place.street }}</p>

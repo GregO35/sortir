@@ -37,7 +37,7 @@ class UserRepository extends ServiceEntityRepository
         ;
 
         $query = $qb->getQuery();
-        $participants =$query->getResult();
+        $participants = $query->getResult();
 
         return $participants;
     }

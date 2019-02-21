@@ -381,12 +381,14 @@ class ExcursionController extends AbstractController
 
         $participants= $participantsRepository->findParticipants($id);
 
+        dd($participants);
+
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,
             'site'=>$site,
             'place'=>$place,
             'city'=>$city,
-            'participants'=>$participants
+            'participants'=>$participants,
         ]);
     }
 

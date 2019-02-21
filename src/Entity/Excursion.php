@@ -104,6 +104,7 @@ class Excursion
     public function __construct()
     {
         $this->RegisterExcursion = new ArrayCollection();
+
     }
 
 

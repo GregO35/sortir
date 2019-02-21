@@ -129,8 +129,6 @@ class UserController extends AbstractController
 
     /**
      * @Route(
-<<<<<<< HEAD
-=======
      *     "sortir/utilisateur/gestion-lieu",
      *      name="gestion_lieu",
      *      methods={"GET","POST"}
@@ -263,7 +261,6 @@ class UserController extends AbstractController
 
     /**
      * @Route(
->>>>>>> 96b3950173ba5a920690e7b9ec677d3fb1ea96b0
      *     "sortir/admin/liste-utilisateur",
      *     name="user_list"
      * )

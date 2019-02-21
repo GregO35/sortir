@@ -4,6 +4,7 @@ namespace App\Repository;
 use App\Entity\Excursion;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -30,17 +31,40 @@ class UserRepository extends ServiceEntityRepository
 
     public function findParticipants($id){
 
-        $qb =  $this->createQueryBuilder('u');
-        $qb ->join('u.excursions','e')
-            ->andWhere('e.id=:id')
+        $qb = $this->createQueryBuilder('u');
+        $qb ->innerJoin('u.excursions','e')
+            ->Where('e.id=:id')
             ->setParameter('id',$id)
         ;
 
+
         $query = $qb->getQuery();
         $participants =$query->getResult();
+        dump($participants);
 
         return $participants;
     }
+
+
+   /* public function findParticipants ($id){
+        $dql = "SELECT u
+                FROM App\Entity\User u
+                JOIN u.excursions e
+                WHERE e.id = :e";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter("e", $id);
+
+        $participants=$query->getResult();
+        dump ($participants);
+
+        $paginator = new Paginator($query);
+
+        return $paginator;
+    }
+*/
+
+
     /*public function findBy($username){
 
       /*  $qb= $this->createQueryBuilder('u');

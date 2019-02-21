@@ -8,11 +8,7 @@ body .container {
     flex-direction: column;
 }
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 96b3950173ba5a920690e7b9ec677d3fb1ea96b0
 #create-excursion
 {
 
@@ -24,13 +20,12 @@ body .container {
     columns: 300px 2;
 }
 
-<<<<<<< HEAD
+
 header {
     margin-bottom: 60px;
 }
 
-=======
->>>>>>> 96b3950173ba5a920690e7b9ec677d3fb1ea96b0
+
 header .site-title {
     font-size: 32px;
 }
@@ -39,25 +34,20 @@ header .site-title a {
     color: #212529;
     display: flex;
     align-items: center;
-<<<<<<< HEAD
+
 
 }
 
 
-=======
-}
 
->>>>>>> 96b3950173ba5a920690e7b9ec677d3fb1ea96b0
+
 header .site-title a:hover {
     text-decoration: none;
 }
 
 header .site-title img {
-<<<<<<< HEAD
+
     height: 60px;
-=======
-    height: 27px;
->>>>>>> 96b3950173ba5a920690e7b9ec677d3fb1ea96b0
     margin-right: 3px;
 }
 

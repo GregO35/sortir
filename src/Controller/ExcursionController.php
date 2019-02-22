@@ -284,6 +284,10 @@ class ExcursionController extends AbstractController
         //Récupère la ville qui correspond à la sortie
         $city = $excursionRepository->findCity($id);
 
+        $city = new City();
+        $cityForm = $this->createForm(CityType::class, $city);
+        $cityForm ->handleRequest($request);
+
 
         if($excursionForm->isSubmitted() && $excursionForm->isValid())
         {
@@ -300,7 +304,7 @@ class ExcursionController extends AbstractController
 
         return $this->render("excursion/modif.html.twig",[
             'excursionForm' => $excursionForm->createView(),
-
+            'cityForm' => $cityForm->createView(),
             'excursion' => $excursion,
             'cities'=>$cities,
             'city'=>$city
@@ -394,8 +398,6 @@ class ExcursionController extends AbstractController
         $site_id= $siteRepository->find($id);
         $site= $site_id->getName();
 
-
-
         return $this->render("excursion/details.html.twig",[
             'excursion' => $excursion,
             'site'=>$site,
@@ -420,7 +422,6 @@ class ExcursionController extends AbstractController
 
         if($_POST)
         {
-            dd($id);
             $stateRepository = $this->getDoctrine()->getRepository(State::class);
             $stateClose = $stateRepository->find(6);
 

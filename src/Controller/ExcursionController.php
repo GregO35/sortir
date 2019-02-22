@@ -110,6 +110,7 @@ class ExcursionController extends AbstractController
         $site_id= $siteRepository->find($numid);
         $site=$site_id->getName();
 
+
         //Formulaire ville City
         $city = new City();
         $cityForm = $this->createForm(CityType::class, $city);
@@ -146,6 +147,7 @@ class ExcursionController extends AbstractController
             $this->getUser()->addExcursion($excursion);
 
             $excursion->setState($stateInitial);
+            $excursion->setSite($site_id);
 
             $em = $this->getDoctrine()->getManager();
 
